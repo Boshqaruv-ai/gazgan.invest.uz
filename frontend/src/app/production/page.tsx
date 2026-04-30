@@ -1,20 +1,24 @@
 'use client';
 
+import { Reveal } from '@/components/marketing';
 import ProductionContent from '@/features/production';
 
 export default function ProductionPage() {
   return (
-    <div className="min-h-screen pt-24 pb-20 hero-bg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16 pt-8">
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Ishlab Chiqarish</h1>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            Zamonaviy uskunalar va ilg&apos;or texnologiyalar bilan jihozlangan ishlab chiqarish jarayoni
+    <main className="min-h-screen bg-dark pt-28">
+      <section className="section-shell pb-14 pt-10">
+        <Reveal className="max-w-4xl">
+          <div className="text-sm font-semibold uppercase tracking-[0.18em] text-accent/80">Production capacity</div>
+          <h1 className="mt-4 text-5xl font-bold tracking-tight text-copy md:text-6xl">Ishlab chiqarish quvvati</h1>
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
+            Kesish, jilolash, blok tayyorlash va dekorativ mahsulotlar ishlab chiqarish uchun sanoat jarayoni.
           </p>
-        </div>
+        </Reveal>
+      </section>
 
+      <section className="section-shell pb-20">
         <ProductionContent />
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

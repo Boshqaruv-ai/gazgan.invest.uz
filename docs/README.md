@@ -1,15 +1,16 @@
-# G'ozg'on Invest Portal - MVP Docs
+# Gozgon Invest Platform Docs
 
-This project is now organized around a low-cost production MVP.
+This project is organized around a low-cost production frontend deployment.
 
 ## Current Production Architecture
 
 - Production app: `frontend/`
 - Framework: Next.js 16 App Router
-- Runtime backend: Next.js API routes only
+- Runtime server logic: Next.js API routes only
 - Chat endpoint: `frontend/src/app/api/chat/route.ts`
+- Lead endpoint: `frontend/src/app/api/lead/route.ts`
 - Data source: typed local files in `frontend/src/lib/`
-- Database: none for MVP
+- Database: none
 - Python backend: experimental, not deployed
 
 ## Run Locally
@@ -42,11 +43,11 @@ GEMINI_API_KEY=
 
 If the key is not set, chat uses deterministic fallback replies.
 
-## MVP Scope
+## Production Scope
 
 - Public pages: home, products, quarries, production, investment, about/contact, chat
 - Investment calculator is local and indicative
-- Contact requests are sent through email
+- Contact requests are sent through `/api/lead`
 - Dashboard is demo-only
 
 ## Do Not Build Yet
@@ -59,4 +60,4 @@ If the key is not set, chat uses deterministic fallback replies.
 - Advanced maps or 360 tours
 - AWS EC2/RDS deployment
 
-Older files in this docs folder may contain pre-MVP backend plans. Treat this README and `frontend/README.md` as the current source of truth.
+Older files in this docs folder may contain pre-production backend plans. Treat this README and `frontend/README.md` as the current source of truth.

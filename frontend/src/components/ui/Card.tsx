@@ -11,8 +11,8 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={cn(
-          'bg-secondary/50 border border-accent/10 rounded-2xl',
-          hover && 'card-hover',
+          'glass-card rounded-2xl',
+          hover && 'transition-all duration-300 hover:-translate-y-1 hover:border-accent/35 hover:shadow-gold',
           className
         )}
         {...props}

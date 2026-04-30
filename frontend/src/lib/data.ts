@@ -19,7 +19,7 @@ export const advantages = [
   },
   {
     icon: 'shield',
-    title: 'Aniq MVP chegarasi',
+    title: 'Aniq tijoriy chegaralar',
     description: "Portal tijoriy takliflarni oshirib ko'rsatmaydi; yakuniy shartlar kontakt orqali tasdiqlanadi.",
   },
   {
@@ -40,7 +40,7 @@ export const advantages = [
   {
     icon: 'users',
     title: 'Investor uchun sodda oqim',
-    description: "MVP bosqichida ro'yxatdan o'tishsiz katalog, kalkulyator, chat va kontakt yetarli.",
+    description: "Ro'yxatdan o'tishsiz katalog, kalkulyator, chat va kontakt oqimi ishlaydi.",
   },
 ];
 

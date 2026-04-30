@@ -3,118 +3,121 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { quarries, colors } from '@/lib/quarries';
+import { MapPin, Route, Train, Truck } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { Card, CardContent } from '@/components/ui/Card';
+import { quarries } from '@/lib/quarries';
 
 export default function QuarryDetailPage() {
   const params = useParams();
   const slug = params?.slug as string;
-
   const quarry = quarries.find((item) => item.slug === slug);
 
   if (!quarry) {
     return (
-      <div className="min-h-screen pt-24 pb-20 hero-bg flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-white mb-4">Kon topilmadi</h1>
+      <main className="min-h-screen bg-dark pt-32">
+        <div className="section-shell text-center">
+          <h1 className="text-3xl font-bold text-copy">Kon topilmadi</h1>
           <Link href="/quarries">
-            <Button>Orqaga qaytish</Button>
+            <Button className="mt-6">Konlarga qaytish</Button>
           </Link>
         </div>
-      </div>
+      </main>
     );
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-20 hero-bg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Link href="/quarries" className="inline-flex items-center gap-2 text-gray-400 hover:text-accent mb-6">
-          <span aria-hidden="true">&lt;</span>
-          Konlar ro&apos;yxatiga qaytish
+    <main className="min-h-screen bg-dark pt-28">
+      <section className="section-shell pb-20 pt-8">
+        <Link href="/quarries" className="mb-7 inline-flex text-sm font-medium text-muted transition-colors hover:text-accent">
+          Konlar ro‘yxatiga qaytish
         </Link>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          <div>
-            <div className="relative rounded-2xl h-[350px] lg:h-[450px] bg-dark overflow-hidden">
-              <Image
-                src={quarry.image}
-                alt={quarry.imageAlt}
-                fill
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
+        <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="relative min-h-[460px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
+            <Image
+              src={quarry.image}
+              alt={quarry.imageAlt}
+              fill
+              priority
+              sizes="(min-width: 1024px) 52vw, 100vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6">
+              <span className="rounded-full bg-accent px-3 py-1 text-sm font-bold text-dark">{quarry.type}</span>
+              <h1 className="mt-4 text-4xl font-bold tracking-tight text-copy">{quarry.name}</h1>
             </div>
           </div>
 
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <span className="bg-accent text-primary text-sm font-bold px-3 py-1 rounded-full">
-                {quarry.type}
-              </span>
-              <span className={`text-sm font-medium px-3 py-1 rounded-full ${colors[quarry.color]}`}>
-                {quarry.color}
-              </span>
-            </div>
+          <div className="space-y-6">
+            <div className="glass-card rounded-2xl p-6 sm:p-8">
+              <p className="text-lg leading-8 text-muted">{quarry.fullDescription}</p>
 
-            <h1 className="text-3xl lg:text-4xl font-bold text-white mb-4">{quarry.name}</h1>
-            <p className="text-gray-400 text-lg mb-6">{quarry.description}</p>
-            <p className="text-gray-300 mb-8">{quarry.fullDescription}</p>
-
-            <Card className="bg-secondary/30 border-accent/10 mb-8">
-              <CardContent className="p-6">
-                <div className="grid grid-cols-3 gap-6 text-center">
-                  <div>
-                    <div className="text-2xl lg:text-3xl font-bold text-accent">{quarry.reserves}</div>
-                    <div className="text-gray-500 text-sm mt-1">Indikativ zaxira</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl lg:text-3xl font-bold text-white">{quarry.density}</div>
-                    <div className="text-gray-500 text-sm mt-1">Zichlik</div>
-                  </div>
-                  <div>
-                    <div className="text-lg lg:text-xl font-bold text-white">{quarry.location.split(', ')[1] || quarry.location}</div>
-                    <div className="text-gray-500 text-sm mt-1">Joylashuv</div>
-                  </div>
+              <div className="mt-8 grid grid-cols-2 gap-3">
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                  <div className="text-xs text-muted">Indikativ zaxira</div>
+                  <div className="mt-2 text-2xl font-bold text-accent">{quarry.reserves}</div>
                 </div>
-              </CardContent>
-            </Card>
-
-            <div className="mb-8">
-              <h3 className="text-xl font-bold text-white mb-4">Xususiyatlar</h3>
-              <div className="flex flex-wrap gap-2">
-                {quarry.features.map((feature) => (
-                  <span key={feature} className="bg-secondary/50 text-gray-300 text-sm px-3 py-2 rounded-lg">
-                    {feature}
-                  </span>
-                ))}
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                  <div className="text-xs text-muted">Zichlik</div>
+                  <div className="mt-2 text-2xl font-bold text-copy">{quarry.density}</div>
+                </div>
+                <div className="col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                  <div className="flex items-center gap-2 text-xs text-muted">
+                    <MapPin className="h-4 w-4 text-accent" />
+                    Joylashuv
+                  </div>
+                  <div className="mt-2 font-semibold text-copy">{quarry.location}</div>
+                </div>
               </div>
             </div>
 
-            <div className="mb-8">
-              <h3 className="text-xl font-bold text-white mb-4">Qo&apos;llanilishi</h3>
-              <div className="flex flex-wrap gap-2">
-                {quarry.uses.map((use) => (
-                  <span key={use} className="bg-accent/10 text-accent text-sm px-3 py-2 rounded-lg">
-                    {use}
-                  </span>
+            <div className="glass-card rounded-2xl p-6">
+              <h2 className="text-2xl font-bold tracking-tight text-copy">Logistika</h2>
+              <div className="mt-5 grid gap-3">
+                {[
+                  { icon: Train, label: 'Temir yo‘l aloqasi' },
+                  { icon: Truck, label: 'Avtomobil transporti' },
+                  { icon: Route, label: 'Eksport yo‘nalishlari' },
+                ].map((item) => (
+                  <div key={item.label} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                    <item.icon className="h-5 w-5 text-accent" />
+                    <span className="font-medium text-copy">{item.label}</span>
+                  </div>
                 ))}
               </div>
-            </div>
-
-            <div className="flex gap-4">
-              <Link href="/about#contact" className="flex-1">
-                <Button size="lg" className="w-full">Aloqa qilish -&gt;</Button>
-              </Link>
-              <Link href="/products" className="flex-1">
-                <Button size="lg" variant="outline" className="w-full">Mahsulotlarni ko&apos;rish -&gt;</Button>
-              </Link>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+
+        <div className="mt-8 grid gap-6 lg:grid-cols-2">
+          <div className="glass-card rounded-2xl p-6">
+            <h3 className="text-xl font-bold text-copy">Xususiyatlar</h3>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {quarry.features.map((feature) => (
+                <span key={feature} className="rounded-full bg-white/[0.04] px-3 py-2 text-sm text-muted">{feature}</span>
+              ))}
+            </div>
+          </div>
+          <div className="glass-card rounded-2xl p-6">
+            <h3 className="text-xl font-bold text-copy">Qo‘llanilishi</h3>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {quarry.uses.map((use) => (
+                <span key={use} className="rounded-full bg-accent/10 px-3 py-2 text-sm text-accent">{use}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <Link href="/about#contact">
+            <Button size="lg" className="w-full sm:w-auto">Investor bilan bog‘lanish</Button>
+          </Link>
+          <Link href="/products">
+            <Button size="lg" variant="outline" className="w-full sm:w-auto">Mahsulotlarni ko‘rish</Button>
+          </Link>
+        </div>
+      </section>
+    </main>
   );
 }

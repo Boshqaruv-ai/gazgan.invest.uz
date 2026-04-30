@@ -2,54 +2,51 @@ import Link from 'next/link';
 
 export function Footer() {
   return (
-    <footer className="bg-primary border-t border-accent/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 gold-gradient rounded-lg flex items-center justify-center">
-                <span className="text-primary font-bold text-lg">G&apos;</span>
-              </div>
+    <footer className="border-t border-white/10 bg-dark">
+      <div className="section-shell py-10 sm:py-14">
+        <div className="grid gap-8 md:grid-cols-4">
+          <div className="md:col-span-1">
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent text-lg font-black text-dark">G</div>
               <div>
-                <span className="text-white font-bold text-lg">G&apos;ozg&apos;on</span>
-                <span className="text-accent text-xs block -mt-1">Invest Portal</span>
+                <span className="block text-lg font-bold tracking-tight text-copy">Gozgon Invest</span>
+                <span className="-mt-0.5 block text-xs text-accent">Marble & Granite Platform</span>
               </div>
             </div>
-            <p className="text-gray-400 text-sm">
-              Marmar, granit, konlar va taxminiy investitsiya ssenariylari bo&apos;yicha MVP portal.
+            <p className="mt-5 text-sm leading-6 text-muted">
+              Marmar, granit, konlar va investitsiya loyihalari bo‘yicha premium platforma.
             </p>
           </div>
 
           <div>
-            <h4 className="text-accent font-semibold mb-4">Sahifalar</h4>
-            <ul className="space-y-2">
-              <li><Link href="/quarries" className="text-gray-400 hover:text-accent text-sm">Konlar</Link></li>
-              <li><Link href="/production" className="text-gray-400 hover:text-accent text-sm">Ishlab chiqarish</Link></li>
-              <li><Link href="/products" className="text-gray-400 hover:text-accent text-sm">Mahsulotlar</Link></li>
-              <li><Link href="/investment" className="text-gray-400 hover:text-accent text-sm">Investitsiya</Link></li>
-              <li><Link href="/about#contact" className="text-gray-400 hover:text-accent text-sm">Aloqa</Link></li>
+            <h4 className="font-semibold text-copy">Sahifalar</h4>
+            <ul className="mt-4 space-y-2 text-sm text-muted">
+              <li><Link href="/quarries" className="hover:text-accent">Konlar</Link></li>
+              <li><Link href="/production" className="hover:text-accent">Ishlab chiqarish</Link></li>
+              <li><Link href="/products" className="hover:text-accent">Mahsulotlar</Link></li>
+              <li><Link href="/investment" className="hover:text-accent">Investitsiya</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-accent font-semibold mb-4">Aloqa</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
-              <li>Navoiy viloyati, G&apos;ozg&apos;on shahri</li>
+            <h4 className="font-semibold text-copy">Aloqa</h4>
+            <ul className="mt-4 space-y-2 text-sm text-muted">
+              <li>Navoiy viloyati, G‘ozg‘on shahri</li>
               <li>+998 79 123 45 67</li>
               <li>info@gazgan.uz</li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-accent font-semibold mb-4">MVP holati</h4>
-            <p className="text-gray-400 text-sm">
-              Hozircha portal katalog, kalkulyator, AI chat va email orqali so&apos;rov qabul qilishga qaratilgan.
+            <h4 className="font-semibold text-copy">Investorlar uchun</h4>
+            <p className="mt-4 text-sm leading-6 text-muted">
+              ROI ssenariylari, mahsulot katalogi, kon ma’lumotlari va lead capture oqimi.
             </p>
           </div>
         </div>
 
-        <div className="border-t border-accent/10 mt-8 pt-8 text-center text-gray-400 text-sm">
-          <p>&copy; 2026 G&apos;ozg&apos;on Investitsion Portali. Barcha huquqlar himoyalangan. | Dastur muallifi: Nurmurodov Damir</p>
+        <div className="mt-10 border-t border-white/10 pt-7 text-sm text-muted">
+          © 2026 Gozgon Invest Platform
         </div>
       </div>
     </footer>

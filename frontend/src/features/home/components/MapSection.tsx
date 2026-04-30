@@ -22,7 +22,7 @@ export function MapSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">G&apos;ozg&apos;on konlari xaritasi</h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">MVP uchun soddalashtirilgan joylashuv diagrammasi</p>
+          <p className="text-gray-400 max-w-2xl mx-auto">Soddalashtirilgan joylashuv va logistika diagrammasi</p>
         </div>
 
         <div className="bg-secondary/30 border border-accent/10 rounded-2xl p-6">

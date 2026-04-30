@@ -16,7 +16,7 @@ interface TeamMember {
 }
 
 const timeline: TimelineItem[] = [
-  { year: 'MVP', title: 'Mahsulot, kon va investitsiya sahifalari jamlandi' },
+  { year: 'Portal', title: 'Mahsulot, kon va investitsiya sahifalari jamlandi' },
   { year: 'Aloqa', title: "So'rovlar email orqali qabul qilinadi" },
   { year: 'Chat', title: 'AI yordamchi va fallback javoblar ishga tushirildi' },
   { year: 'Keyin', title: "Real talab bo'lsa, lead tracking va admin oqimi qo'shiladi" },
@@ -67,11 +67,11 @@ export function AboutHistory() {
         <div className="space-y-4 text-gray-400">
           <p>G&apos;ozg&apos;on O&apos;zbekistonning Navoiy viloyatida joylashgan, marmar va granit konlari bilan tanilgan hudud.</p>
           <p>G&apos;ozg&apos;on marmari O&apos;rta Osiyodagi tarixiy va zamonaviy arxitektura loyihalarida ishlatilgan.</p>
-          <p>Ushbu MVP portal mahsulot katalogi, konlar, taxminiy investitsiya ssenariylari va kontakt oqimini bir joyga jamlaydi.</p>
+          <p>Ushbu portal mahsulot katalogi, konlar, taxminiy investitsiya ssenariylari va kontakt oqimini bir joyga jamlaydi.</p>
         </div>
       </div>
       <div className="bg-secondary/30 border border-accent/10 rounded-2xl p-8">
-        <h3 className="text-xl font-bold text-white mb-6">MVP holati</h3>
+        <h3 className="text-xl font-bold text-white mb-6">Platforma holati</h3>
         <div className="space-y-6 relative">
           <div className="absolute left-3 top-0 bottom-0 w-0.5 bg-accent/30" />
           {timeline.map((item) => (
@@ -94,7 +94,7 @@ export function AboutMission() {
     <div className="border border-accent/20 rounded-2xl p-8 mb-16 bg-secondary/30">
       <h2 className="text-2xl font-bold text-white mb-4">Bizning maqsad</h2>
       <p className="text-gray-400 text-lg">
-        G&apos;ozg&apos;on marmar va granit yo&apos;nalishlari bo&apos;yicha investor, xaridor va hamkorlar uchun sodda, ishonchli va arzon MVP portal yaratish.
+        G&apos;ozg&apos;on marmar va granit yo&apos;nalishlari bo&apos;yicha investor, xaridor va hamkorlar uchun sodda, ishonchli va premium portal yaratish.
       </p>
     </div>
   );

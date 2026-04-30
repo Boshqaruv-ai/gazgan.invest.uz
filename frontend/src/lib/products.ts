@@ -1,7 +1,23 @@
 const marbleSamplesImage = 'https://images.unsplash.com/photo-1749212387838-c4c4e6e58348?auto=format&fit=crop&w=1200&q=80';
 const marbleTextureImage = 'https://images.unsplash.com/photo-1584294273740-0ecc6df9f9f0?auto=format&fit=crop&w=1200&q=80';
 
-export const products = [
+export interface Product {
+  id: number;
+  slug: string;
+  name: string;
+  category: string;
+  color: string;
+  size: string;
+  finish: string;
+  price: number;
+  priceUnit: string;
+  description: string;
+  features: string[];
+  image: string;
+  imageAlt: string;
+}
+
+export const products: Product[] = [
   {
     id: 1,
     slug: 'oq-marmar-plitka',

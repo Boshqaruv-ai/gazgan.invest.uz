@@ -1,6 +1,6 @@
 # Start Here
 
-The production MVP is the Next.js app in `frontend/`.
+The production app is the Next.js frontend in `frontend/`.
 
 ## Local Run
 
@@ -34,4 +34,4 @@ Without `GEMINI_API_KEY`, `/api/chat` uses built-in fallback answers.
 
 ## Backend
 
-`backend/` is experimental and is not required for MVP deployment.
+`backend/` is experimental and is not required for production deployment.

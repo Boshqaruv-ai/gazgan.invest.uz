@@ -3,6 +3,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Menu, MessageCircle, X } from 'lucide-react';
 
 const navLinks = [
   { href: '/', label: 'Bosh sahifa' },
@@ -18,70 +19,72 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-primary/95 backdrop-blur-lg border-b border-accent/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
-          <Link href="/" className="flex items-center gap-3 cursor-pointer">
-            <div className="w-10 h-10 gold-gradient rounded-lg flex items-center justify-center">
-              <span className="text-primary font-bold text-lg">G&apos;</span>
+    <nav className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-dark/80 backdrop-blur-xl">
+      <div className="section-shell">
+        <div className="flex h-20 items-center justify-between">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent text-lg font-black text-dark shadow-gold">
+              G
             </div>
             <div>
-              <span className="text-white font-bold text-lg">G&apos;ozg&apos;on</span>
-              <span className="text-accent text-xs block -mt-1">Invest Portal</span>
+              <span className="block text-lg font-bold tracking-tight text-copy">Gozgon Invest</span>
+              <span className="-mt-0.5 block text-xs font-medium text-accent">Marble & Granite Platform</span>
             </div>
           </Link>
 
-          <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`nav-link text-sm ${
-                  pathname === link.href ? 'text-accent' : 'text-gray-300 hover:text-accent'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+          <div className="hidden items-center gap-7 lg:flex">
+            {navLinks.map((link) => {
+              const active = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href.split('#')[0]);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm font-medium transition-colors ${active ? 'text-accent' : 'text-muted hover:text-copy'}`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
 
           <div className="flex items-center gap-3">
-            <Link
-              href="/chat"
-              className="p-2 text-gray-300 hover:text-accent transition-colors"
-              title="AI Konsultant"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-              </svg>
+            <Link href="/chat" className="hidden rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-2 text-sm font-semibold text-copy transition-colors hover:border-accent/45 hover:text-accent sm:inline-flex">
+              <MessageCircle className="mr-2 h-4 w-4" />
+              AI konsultant
             </Link>
-            <Link href="/investment" className="hidden sm:block btn-primary text-sm py-2 px-6">
-              Ssenariylarni ko&apos;rish
+            <Link href="/investment" className="hidden rounded-2xl bg-accent px-5 py-2.5 text-sm font-bold text-dark shadow-gold transition-transform hover:-translate-y-0.5 md:inline-flex">
+              Loyihalarni ko‘rish
             </Link>
             <button
-              className="lg:hidden p-2 text-gray-300"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="rounded-xl border border-white/10 p-2 text-copy lg:hidden"
+              onClick={() => setMobileMenuOpen((current) => !current)}
+              aria-label="Menu"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </div>
 
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-primary/95 backdrop-blur-lg border-t border-accent/20">
-            <div className="px-4 py-4 space-y-3">
+          <div className="border-t border-white/10 py-4 lg:hidden">
+            <div className="grid gap-2">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="block text-gray-300 hover:text-accent py-2"
+                  className="rounded-xl px-3 py-3 text-muted hover:bg-white/[0.04] hover:text-copy"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link.label}
                 </Link>
               ))}
+              <Link
+                href="/chat"
+                className="rounded-xl px-3 py-3 text-muted hover:bg-white/[0.04] hover:text-copy"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                AI konsultant
+              </Link>
             </div>
           </div>
         )}

@@ -1,20 +1,33 @@
 'use client';
 
+import { LeadForm, Reveal } from '@/components/marketing';
 import { ProductsList } from '@/features/products';
 
 export default function ProductsPage() {
   return (
-    <div className="min-h-screen pt-24 pb-20 hero-bg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16 pt-8">
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Mahsulotlar Katalogi</h1>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            Yuqori sifatli marmar va granit mahsulotlari
+    <main className="min-h-screen bg-dark pt-28">
+      <section className="section-shell pb-12 pt-10">
+        <Reveal className="max-w-4xl">
+          <div className="text-sm font-semibold uppercase tracking-[0.18em] text-accent/80">Product catalog</div>
+          <h1 className="mt-4 text-5xl font-bold tracking-tight text-copy md:text-6xl">Marmar va granit mahsulotlari</h1>
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
+            Slab, plitka, blok va dekorativ mahsulotlar bo‘yicha specs, taxminiy narx va B2B buyurtma oqimi.
           </p>
-        </div>
+        </Reveal>
+      </section>
 
+      <section className="section-shell pb-20">
         <ProductsList />
-      </div>
-    </div>
+      </section>
+
+      <section id="lead" className="section-shell pb-20">
+        <LeadForm
+          compact
+          defaultInterest="Mahsulot xaridi"
+          title="Mahsulot bo‘yicha so‘rov"
+          subtitle="Mahsulot turi, hajm, o‘lcham va yetkazib berish yo‘nalishini yozing."
+        />
+      </section>
+    </main>
   );
 }

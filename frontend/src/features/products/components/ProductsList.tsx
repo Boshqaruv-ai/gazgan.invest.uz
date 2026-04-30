@@ -1,9 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Card, CardContent } from '@/components/ui/Card';
+import { ProductCard, Reveal } from '@/components/marketing';
 import { products, productCategories } from '@/lib/products';
 
 export function useProducts() {
@@ -24,79 +22,41 @@ export function useProducts() {
   return { category, setCategory, sort, setSort, products: sorted };
 }
 
-const categoryColors: Record<string, string> = {
-  Marmar: 'bg-blue-500',
-  Granit: 'bg-red-500',
-};
-
 export function ProductsList() {
-  const { category, setCategory, sort, setSort, products } = useProducts();
+  const { category, setCategory, sort, setSort, products: visibleProducts } = useProducts();
 
   return (
-    <>
-      <div className="flex flex-wrap justify-center gap-4 mb-8">
-        <button
-          onClick={() => setCategory('all')}
-          className={`tab-btn ${category === 'all' ? 'active' : ''}`}
-        >
-          Barchasi
-        </button>
-        {productCategories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setCategory(cat.toLowerCase())}
-            className={`tab-btn ${category === cat.toLowerCase() ? 'active' : ''}`}
-          >
-            {cat}
+    <section>
+      <div className="mb-8 flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap gap-2">
+          <button onClick={() => setCategory('all')} className={`tab-btn ${category === 'all' ? 'active' : ''}`}>
+            Barchasi
           </button>
-        ))}
+          {productCategories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setCategory(cat.toLowerCase())}
+              className={`tab-btn ${category === cat.toLowerCase() ? 'active' : ''}`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
 
-        <select
-          value={sort}
-          onChange={(event) => setSort(event.target.value)}
-          className="bg-secondary/50 text-gray-300 text-sm px-4 py-2 rounded-lg border border-accent/20"
-        >
-          <option value="name">Nom bo&apos;yicha</option>
+        <select value={sort} onChange={(event) => setSort(event.target.value)} className="input-field sm:w-64">
+          <option value="name">Nom bo‘yicha</option>
           <option value="price-asc">Narx: pastdan yuqoriga</option>
           <option value="price-desc">Narx: yuqoridan pastga</option>
         </select>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {products.map((product) => (
-          <Card key={product.id} hover className="overflow-hidden">
-            <div className="relative h-40 overflow-hidden bg-dark">
-              <Image
-                src={product.image}
-                alt={product.imageAlt}
-                fill
-                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                className="object-cover transition-transform duration-500 hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/70 to-transparent" />
-            </div>
-            <CardContent className="p-5">
-              <div className="flex items-center gap-2 mb-2">
-                <span className={`text-xs font-bold px-2 py-0.5 rounded ${categoryColors[product.category]} text-white`}>
-                  {product.category}
-                </span>
-                <span className="text-xs text-gray-500">{product.color}</span>
-              </div>
-              <h3 className="text-lg font-bold text-white mb-1">{product.name}</h3>
-              <p className="text-gray-400 text-sm mb-3">{product.size}</p>
-              <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
-                <span>Ishlov: {product.finish}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-xl font-bold text-accent">~${product.price}/{product.priceUnit}</span>
-                <Link href={`/products/${product.slug}`}>
-                  <button className="btn-outline text-sm py-1.5 px-3">Batafsil -&gt;</button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
+      <div className="grid gap-6">
+        {visibleProducts.map((product, index) => (
+          <Reveal key={product.id} delay={index * 0.04}>
+            <ProductCard product={product} />
+          </Reveal>
         ))}
       </div>
-    </>
+    </section>
   );
 }

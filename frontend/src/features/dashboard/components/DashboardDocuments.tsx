@@ -26,7 +26,7 @@ export function DashboardDocuments() {
         ))}
       </div>
       <button className="mt-4 w-full py-3 border-2 border-dashed border-accent/30 rounded-lg text-gray-400 cursor-default" disabled>
-        Hujjat yuklash MVP doirasiga kirmaydi
+        Hujjat yuklash hozircha yoqilmagan
       </button>
     </div>
   );

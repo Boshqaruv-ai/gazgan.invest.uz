@@ -118,7 +118,7 @@ export function InvestmentCalculator() {
               </div>
 
               <p className="text-xs text-gray-500">
-                Hisob-kitoblar faqat MVP baholash uchun. Yakuniy moliyaviy shartlar yozma tijoriy taklifda belgilanadi.
+                Hisob-kitoblar dastlabki baholash uchun. Yakuniy moliyaviy shartlar yozma tijoriy taklifda belgilanadi.
               </p>
             </div>
           </div>

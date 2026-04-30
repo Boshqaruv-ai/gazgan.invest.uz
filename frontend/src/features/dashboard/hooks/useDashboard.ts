@@ -92,7 +92,7 @@ const mockData: DashboardData = {
   ],
   notifications: [
     { id: 1, text: "Bu kabinet demo ma'lumotlar bilan ishlaydi", time: 'Hozir', icon: 'INFO' },
-    { id: 2, text: "Login va saqlash MVP doirasiga kirmaydi", time: 'Hozir', icon: 'MVP' },
+    { id: 2, text: "Login va saqlash hozircha yoqilmagan", time: 'Hozir', icon: 'INFO' },
     { id: 3, text: "Kontakt so'rovlari email orqali yuboriladi", time: 'Hozir', icon: 'MAIL' },
   ],
 };

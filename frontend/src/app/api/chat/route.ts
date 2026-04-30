@@ -9,10 +9,10 @@ const GEMINI_MODEL = 'gemini-2.5-flash-lite';
 const fallbackResponses: Record<string, string> = {
   marmar: "Marmar - tabiiy bezak toshi. G'ozg'on hududi oq, kulrang va pushti marmar yo'nalishlari bilan tanilgan. Mahsulotlar sahifasida asosiy turlar va narx birliklarini ko'rishingiz mumkin.",
   granit: "Granit - qattiq va chidamli tabiiy tosh. U fasad, pol, zinapoya va yodgorlik ishlari uchun mos. Katalogda granit plitka va blok namunalarini ko'rishingiz mumkin.",
-  investitsiya: "MVP bosqichida investitsiya bo'yicha arizalar kontakt formasi orqali qabul qilinadi. Kalkulyator taxminiy ROI ssenariylarini ko'rsatadi, yakuniy shartlar alohida kelishiladi.",
-  narx: "Narx mahsulot turi, o'lcham, ishlov berish va hajmga bog'liq. MVP katalogida taxminiy birlik narxlar berilgan; aniq tijoriy taklif uchun aloqa formasini yuboring.",
+  investitsiya: "Investitsiya bo'yicha arizalar kontakt formasi orqali qabul qilinadi. Kalkulyator taxminiy ROI ssenariylarini ko'rsatadi, yakuniy shartlar alohida kelishiladi.",
+  narx: "Narx mahsulot turi, o'lcham, ishlov berish va hajmga bog'liq. Katalogda taxminiy birlik narxlar berilgan; aniq tijoriy taklif uchun aloqa formasini yuboring.",
   roi: "ROI kalkulyatordagi ssenariylar asosida taxminiy ko'rsatiladi. Bu moliyaviy kafolat emas; yakuniy baholash loyiha, muddat, logistika va shartnomaga bog'liq.",
-  eiz: "EIZ bo'yicha talablar loyiha turi va hujjatlarga qarab tekshiriladi. MVP bosqichida portal hujjatlar ro'yxati va kontakt so'rovi bilan yordam beradi.",
+  eiz: "EIZ bo'yicha talablar loyiha turi va hujjatlarga qarab tekshiriladi. Portal hujjatlar ro'yxati va kontakt so'rovi bilan yordam beradi.",
   default: "Savolingizni marmar, granit, mahsulot, narx yoki investitsiya bo'yicha aniqroq yozing. Tezkor aloqa uchun About sahifasidagi kontakt formasidan foydalanishingiz mumkin.",
 };
 
@@ -48,7 +48,7 @@ async function getGeminiResponse(message: string, history: unknown, apiKey: stri
   const systemPrompt = [
     "Siz G'ozg'on Investitsion Portali uchun qisqa va aniq AI konsultantsiz.",
     "O'zbek tilida javob bering.",
-    "MVP holatini oshirib ko'rsatmang: investitsiya, narx va ROI bo'yicha yakuniy shartlar kontakt orqali tasdiqlanishini ayting.",
+    "Investitsiya, narx va ROI bo'yicha yakuniy shartlar kontakt orqali tasdiqlanishini ayting.",
     "Agar javob noaniq bo'lsa, foydalanuvchini kontakt formasiga yo'naltiring.",
   ].join(' ');
 

@@ -39,7 +39,7 @@ export default function DashboardPage() {
     <div className="min-h-screen pt-24 pb-20 hero-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-6 rounded-2xl border border-accent/20 bg-accent/10 p-4 text-sm text-accent">
-          Demo kabinet: MVP bosqichida login, saqlangan loyihalar va hujjat yuklash backendga ulanmagan.
+          Demo kabinet: login, saqlangan loyihalar va hujjat yuklash hozircha backendga ulanmagan.
         </div>
 
         <div className="mb-8">

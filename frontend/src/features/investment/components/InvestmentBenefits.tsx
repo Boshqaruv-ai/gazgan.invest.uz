@@ -33,7 +33,7 @@ export function InvestmentBenefits() {
             </svg>
           </div>
           <h3 className="text-xl font-bold text-white mb-2">Taxminiy ROI</h3>
-          <p className="text-gray-400 text-sm">Kalkulyator ssenariylari moliyaviy kafolat emas, dastlabki baholashdir</p>
+          <p className="text-gray-400 text-sm">Kalkulyator ssenariylari dastlabki baholashdir va bozor sharoitiga bog‘liq</p>
         </CardContent>
       </Card>
     </div>

@@ -6,12 +6,12 @@ import { CTASection } from '@/features/home/components/CTASection';
 
 export default function HomePage() {
   return (
-    <div className="stone-pattern pb-40">
+    <main className="bg-dark">
       <HeroSection />
       <StatsSection />
       <AdvantagesSection />
       <MapSection />
       <CTASection />
-    </div>
+    </main>
   );
 }

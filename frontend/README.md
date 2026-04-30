@@ -1,15 +1,16 @@
-# G'ozg'on Invest Portal MVP
+# Gozgon Invest Platform
 
-Production MVP is the Next.js app in this folder. The Python backend is not required for production.
+Production frontend for the Gozgon marble and granite investment platform. The Python backend is not required for deployment.
 
 ## Tech
 
 - Next.js 16 App Router
 - TypeScript
 - Tailwind CSS
+- Framer Motion
 - Local typed datasets for products, quarries, production, and investment scenarios
-- Next.js API route for chat: `src/app/api/chat/route.ts` using Gemini Flash-Lite with fallback replies
-- No database or auth in MVP
+- Next.js API routes for chat and lead capture
+- No database or auth
 
 ## Environment
 
@@ -47,11 +48,3 @@ Vercel settings:
 - Build command: `npm run build`
 - Output directory: `.next`
 - Optional environment variable: `GEMINI_API_KEY`
-
-## MVP Boundaries
-
-- Dashboard is demo-only.
-- Investment calculator is local and indicative.
-- Product/quarry data is static.
-- Leads are captured through email/contact form.
-- Do not add PostgreSQL, auth, CMS, or a separate backend until real persistence is needed.

@@ -1,11 +1,11 @@
 # Backend Status
 
-This folder is experimental and is not part of the production MVP.
+This folder is experimental and is not part of the production deployment.
 
-The production MVP runs from `frontend/` only:
+The production app runs from `frontend/` only:
 
 - static typed data in the Next.js app
-- `/api/chat` as a Next.js API route
+- `/api/chat` and `/api/lead` as Next.js API routes
 - no database
 - no Python service
 - no auth
