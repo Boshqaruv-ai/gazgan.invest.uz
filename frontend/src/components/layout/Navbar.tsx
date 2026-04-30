@@ -10,7 +10,7 @@ const navLinks = [
   { href: '/production', label: 'Ishlab chiqarish' },
   { href: '/products', label: 'Mahsulotlar' },
   { href: '/investment', label: 'Investitsiya' },
-  { href: '/about', label: 'Biz haqimizda' },
+  { href: '/about#contact', label: 'Aloqa' },
 ];
 
 export function Navbar() {
@@ -23,10 +23,10 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link href="/" className="flex items-center gap-3 cursor-pointer">
             <div className="w-10 h-10 gold-gradient rounded-lg flex items-center justify-center">
-              <span className="text-primary font-bold text-lg">G'</span>
+              <span className="text-primary font-bold text-lg">G&apos;</span>
             </div>
             <div>
-              <span className="text-white font-bold text-lg">G'ozg'on</span>
+              <span className="text-white font-bold text-lg">G&apos;ozg&apos;on</span>
               <span className="text-accent text-xs block -mt-1">Invest Portal</span>
             </div>
           </Link>
@@ -45,18 +45,18 @@ export function Navbar() {
             ))}
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <Link
-              href="/dashboard"
-              className="relative p-2 text-gray-300 hover:text-accent transition-colors"
+              href="/chat"
+              className="p-2 text-gray-300 hover:text-accent transition-colors"
+              title="AI Konsultant"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
               </svg>
-              <span className="notification-badge">3</span>
             </Link>
             <Link href="/investment" className="hidden sm:block btn-primary text-sm py-2 px-6">
-              Investitsiya qilish
+              Ssenariylarni ko&apos;rish
             </Link>
             <button
               className="lg:hidden p-2 text-gray-300"
@@ -68,31 +68,24 @@ export function Navbar() {
             </button>
           </div>
         </div>
-      </div>
 
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-primary/95 backdrop-blur-lg border-t border-accent/20">
-          <div className="px-4 py-4 space-y-3">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="block text-gray-300 hover:text-accent py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              href="/dashboard"
-              className="block text-gray-300 hover:text-accent py-2"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Kabinet
-            </Link>
+        {mobileMenuOpen && (
+          <div className="lg:hidden bg-primary/95 backdrop-blur-lg border-t border-accent/20">
+            <div className="px-4 py-4 space-y-3">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="block text-gray-300 hover:text-accent py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </nav>
   );
 }

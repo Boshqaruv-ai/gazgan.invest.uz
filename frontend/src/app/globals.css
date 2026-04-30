@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
   --color-primary: #1a1a2e;
@@ -14,21 +14,25 @@
   --color-granite: #4a4a5a;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 html {
   scroll-behavior: smooth;
+  height: 100%;
 }
 
 body {
+  height: 100%;
   font-family: 'Inter', system-ui, sans-serif;
   background: #0f0f1a;
   color: #fff;
+  -webkit-overflow-scrolling: touch;
+}
+
+#page-content {
+  height: 100%;
+  overflow-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
 }
 
 .page {
@@ -253,6 +257,11 @@ body {
 
 .input-field::placeholder {
   color: rgba(255,255,255,0.4);
+}
+
+.input-field option {
+  background-color: #1a1a2e;
+  color: #fff;
 }
 
 .tab-btn {

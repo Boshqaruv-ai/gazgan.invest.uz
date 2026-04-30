@@ -1,54 +1,37 @@
-# G'ozg'on Investitsiya Kalkulyatori (2026)
+# Start Here
 
-**Dastur Mulalifi**: Nurmurodov Damir
+The production MVP is the Next.js app in `frontend/`.
 
----
-
-## Ishga tushirish buyruqlari
-
-### Backend (Flask)
-
-```bash
-cd backend
-
-# Virtual muhit yaratish (birinchi marta)
-python -m venv venv
-
-# Virtual muhitni faollashtirish
-venv\Scripts\activate
-
-# Bog'liqlarni o'rnatish
-pip install -r requirements.txt
-
-# Serverni ishga tushirish
-python app.py
-```
-
-**Backend**: http://localhost:8000
-
----
-
-### Frontend (Next.js)
+## Local Run
 
 ```bash
 cd frontend
-
-# Bog'liqlarni o'rnatish
 npm install
-
-# Render qilish rejimida ishlash
 npm run dev
 ```
 
-**Frontend**: http://localhost:3000
-**Kalkulyator sahifasi**: http://localhost:3000/investment
+Open `http://localhost:3000`.
 
----
+## Validate
 
-### Muhit o'zgaruvchilari
-
-**.env.local** fayli yarating (frontend papkasida):
-
-```env
-NEXT_PUBLIC_API_URL=http://localhost:8000
+```bash
+cd frontend
+npm run lint
+npm run build
 ```
+
+## Deploy
+
+Deploy `frontend/` to Vercel.
+
+Optional environment variable:
+
+```bash
+GEMINI_API_KEY=
+```
+
+Without `GEMINI_API_KEY`, `/api/chat` uses built-in fallback answers.
+
+## Backend
+
+`backend/` is experimental and is not required for MVP deployment.

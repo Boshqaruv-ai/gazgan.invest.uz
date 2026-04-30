@@ -1,0 +1,1 @@
+export { AboutHistory, AboutMission, AboutTeam, AboutContact, useContactForm } from './components/AboutContent';

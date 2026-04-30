@@ -1,0 +1,13 @@
+.vercel/
+.next/
+node_modules/
+venv/
+.venv/
+
+.env
+.env.local
+.env.*.local
+!.env.example
+
+*.db
+*.sqlite

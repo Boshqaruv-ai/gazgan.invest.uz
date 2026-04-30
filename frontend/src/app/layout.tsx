@@ -18,10 +18,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="uz">
-      <body className={inter.className}>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#c9a84c" />
+      </head>
+      <body className={`${inter.className}`}>
+        <div className="bg-[#0f0f1a]">
+          <Navbar />
+          {children}
+          <Footer />
+        </div>
       </body>
     </html>
   );
