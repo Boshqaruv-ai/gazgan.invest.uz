@@ -7,6 +7,7 @@ venv/
 .next/
 dist/
 build/
+.temp/
 
 # Environment
 .env
