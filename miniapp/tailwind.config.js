@@ -20,6 +20,27 @@ module.exports = {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
+      spacing: {
+        'safe-top': 'env(safe-area-inset-top)',
+        'safe-bottom': 'env(safe-area-inset-bottom)',
+      },
+      fontSize: {
+        'title-lg': ['30px', { lineHeight: '1.35', fontWeight: '700' }],
+        'title-md': ['28px', { lineHeight: '1.4', fontWeight: '600' }],
+        'title-sm': ['24px', { lineHeight: '1.4', fontWeight: '600' }],
+        'subtitle-lg': ['18px', { lineHeight: '1.5', fontWeight: '400' }],
+        'subtitle-md': ['16px', { lineHeight: '1.5', fontWeight: '400' }],
+        'subtitle-sm': ['14px', { lineHeight: '1.6', fontWeight: '400' }],
+      },
+      borderRadius: {
+        'ios-lg': '16px',
+        'ios-md': '14px',
+        'ios-sm': '12px',
+      },
+      minHeight: {
+        'cta': '52px',
+        'cta-lg': '56px',
+      },
     },
   },
   plugins: [],

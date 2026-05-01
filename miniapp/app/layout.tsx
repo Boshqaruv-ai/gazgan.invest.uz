@@ -26,11 +26,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script src="https://telegram.org/js/telegram-web-app.js" strategy="afterInteractive" />
         <TelegramInitializer />
         <TelegramUserProvider>
-          <div className="min-h-screen bg-[#05070D]">
-            <div className="min-h-screen w-full max-w-[390px] overflow-hidden bg-ink text-copy shadow-premium sm:mx-auto">
-              <div className="min-h-screen pb-[calc(96px+var(--safe-bottom))]">{children}</div>
+          <div className="telegram-app">
+            <div className="relative mx-auto h-full w-full max-w-[390px] overflow-hidden bg-ink text-copy shadow-premium">
+              <div className="telegram-scroll-container">
+                {children}
+              </div>
+              <BottomNav />
             </div>
-            <BottomNav />
           </div>
         </TelegramUserProvider>
       </body>

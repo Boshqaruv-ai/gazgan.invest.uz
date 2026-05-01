@@ -16,22 +16,70 @@
 }
 
 html {
-  min-height: 100%;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
   background: #05070d;
   color: var(--foreground);
   -webkit-text-size-adjust: 100%;
 }
 
 body {
-  min-height: 100%;
+  height: 100%;
   margin: 0;
+  padding: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
   background: #05070d;
   color: var(--foreground);
   font-family: Inter, system-ui, sans-serif;
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
   -webkit-overflow-scrolling: touch;
+}
+
+.telegram-app {
+  position: fixed;
+  inset: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: #05070d;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.telegram-scroll-container {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 100px;
+}
+
+.telegram-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.telegram-scroll-container {
+  scrollbar-width: none;
+}
+
+.app-safe-top {
+  padding-top: 20px;
+}
+
+.app-section {
+  margin-bottom: 24px;
+}
+
+.app-section-lg {
+  margin-bottom: 32px;
 }
 
 button,

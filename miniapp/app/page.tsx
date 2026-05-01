@@ -60,30 +60,32 @@ export default function HomePage() {
   ], [stats]);
 
   return (
-    <main className="overflow-x-hidden px-5 pb-6 pt-[calc(18px+var(--safe-top))]">
+    <main className="overflow-x-hidden pb-6">
       <section className="flex items-center justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-muted">Xush kelibsiz, {displayName}</p>
-          <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-copy">Gazgan Invest</h1>
+          <p className="text-[14px] font-medium leading-[1.5] text-muted">Xush kelibsiz, {displayName}</p>
+          <h1 className="mt-1 text-[28px] font-bold leading-[1.35] tracking-tight text-copy">
+            Gazgan Invest
+          </h1>
         </div>
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-gold/25 bg-gold/10 text-base font-extrabold text-gold">
+        <div className="flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded-[14px] border border-gold/25 bg-gold/10 text-[18px] font-bold text-gold">
           {displayName.slice(0, 1).toUpperCase()}
         </div>
       </section>
 
-      <section className="mt-6 overflow-hidden rounded-[28px] border border-white/10 bg-card p-5 shadow-premium">
-        <div className="inline-flex items-center gap-2 rounded-full border border-gold/25 bg-gold/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-gold">
+      <section className="mt-7 overflow-hidden rounded-[20px] border border-white/10 bg-card p-6 shadow-premium">
+        <div className="inline-flex items-center gap-2 rounded-full border border-gold/25 bg-gold/10 px-3 py-1.5 text-[12px] font-bold uppercase tracking-[0.12em] text-gold">
           <Sparkles className="h-3.5 w-3.5" />
           Premium investitsiya
         </div>
-        <h2 className="mt-5 text-[28px] font-extrabold leading-tight tracking-tight text-copy">
+        <h2 className="mt-5 text-[28px] font-bold leading-[1.35] tracking-tight text-copy">
           <span className="block">Marmar va granit</span>
           <span className="block">loyihalariga kirish</span>
         </h2>
-        <p className="mt-3 text-sm leading-6 text-muted">
+        <p className="mt-3 text-[15px] leading-[1.6] text-muted">
           ROI va paybackni ko&apos;ring. Qiziqqan loyiha bo&apos;yicha menejer bilan bog&apos;laning.
         </p>
-        <div className="mt-5 grid gap-3">
+        <div className="mt-6 grid gap-3">
           <CTAButton href="/projects" icon={BadgeDollarSign}>
             Investitsiya qilish
           </CTAButton>
@@ -93,19 +95,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mt-6 grid grid-cols-2 gap-3">
+      <section className="mt-7 grid grid-cols-2 gap-3">
         {statCards.map((stat) => (
           <StatCard key={stat.label} {...stat} />
         ))}
       </section>
 
-      <section className="mt-7">
+      <section className="mt-8">
         <div className="mb-4 flex items-end justify-between gap-3">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.14em] text-gold">Top loyihalar</p>
-            <h2 className="mt-1 text-xl font-bold text-copy">Yuqori qaytim ssenariylari</h2>
+            <p className="text-[12px] font-bold uppercase tracking-[0.14em] text-gold">Top loyihalar</p>
+            <h2 className="mt-1 text-[20px] font-semibold leading-[1.4] text-copy">Yuqori qaytim ssenariylari</h2>
           </div>
-          <Link href="/projects" className="inline-flex items-center gap-1 text-sm font-semibold text-gold">
+          <Link href="/projects" className="inline-flex items-center gap-1 text-[14px] font-semibold text-gold">
             Barchasi
             <ArrowRight className="h-4 w-4" />
           </Link>
@@ -123,12 +125,12 @@ export default function HomePage() {
         )}
       </section>
 
-      <section className="mt-7 rounded-[24px] border border-gold/20 bg-gold/10 p-5">
-        <p className="text-sm font-semibold text-gold">Kapital bo&apos;yicha maslahat kerakmi?</p>
-        <p className="mt-2 text-sm leading-6 text-muted">
+      <section className="mt-8 rounded-[20px] border border-gold/20 bg-gold/10 p-5">
+        <p className="text-[15px] font-semibold leading-[1.5] text-gold">Kapital bo&apos;yicha maslahat kerakmi?</p>
+        <p className="mt-2 text-[14px] leading-[1.6] text-muted">
           Investitsiya miqdori, risk profili va loyiha hujjatlari bo&apos;yicha savol yuboring.
         </p>
-        <CTAButton href="/chat" variant="outline" icon={MessageCircle} className="mt-4 w-full">
+        <CTAButton href="/chat" variant="outline" icon={MessageCircle} className="mt-5 w-full">
           Menejer bilan aloqa
         </CTAButton>
       </section>

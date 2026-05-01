@@ -10,6 +10,7 @@ interface TelegramWebApp {
   };
   ready?: () => void;
   expand?: () => void;
+  disableVerticalSwipes?: () => void;
   requestFullscreen?: () => void;
   setHeaderColor?: (color: string) => void;
   setBackgroundColor?: (color: string) => void;
@@ -50,6 +51,7 @@ export function initializeTelegramApp() {
 
   webApp.ready?.();
   webApp.expand?.();
+  webApp.disableVerticalSwipes?.();
 
   const supportsColorControls = !webApp.isVersionAtLeast || webApp.isVersionAtLeast('6.1');
   if (supportsColorControls) {

@@ -92,13 +92,13 @@ export default function ChatPage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col px-5 pb-6 pt-[calc(18px+var(--safe-top))]">
+    <main className="flex min-h-screen flex-col px-5 pb-6 pt-5">
       <section className="flex items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-gold">AI chat</p>
-          <h1 className="mt-2 text-3xl font-extrabold text-copy">Investor konsultant</h1>
+          <p className="text-[12px] font-bold uppercase tracking-[0.14em] text-gold">AI chat</p>
+          <h1 className="mt-2 text-[28px] font-bold leading-[1.35] text-copy">Investor konsultant</h1>
         </div>
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gold/10 text-gold">
+        <div className="flex h-[48px] w-[48px] items-center justify-center rounded-[14px] bg-gold/10 text-gold">
           <Sparkles className="h-6 w-6" />
         </div>
       </section>
@@ -109,12 +109,12 @@ export default function ChatPage() {
         </div>
       ) : null}
 
-      <section className="miniapp-scrollbar mt-5 flex-1 space-y-3 overflow-y-auto rounded-[26px] border border-white/10 bg-card p-4">
+      <section className="miniapp-scrollbar mt-5 flex-1 space-y-3 overflow-y-auto rounded-[20px] border border-white/10 bg-card p-4">
         {messages.map((message) => (
           <div key={message.id} className={cn('flex', message.role === 'user' ? 'justify-end' : 'justify-start')}>
             <div
               className={cn(
-                'max-w-[86%] whitespace-pre-line rounded-[22px] px-4 py-3 text-sm leading-6',
+                'max-w-[86%] whitespace-pre-line rounded-[18px] px-4 py-3 text-[15px] leading-[1.5]',
                 message.role === 'user'
                   ? 'bg-gold font-semibold text-ink'
                   : 'border border-white/10 bg-white/[0.04] text-copy'
@@ -135,7 +135,7 @@ export default function ChatPage() {
               type="button"
               onClick={() => sendMessage(suggestion)}
               disabled={projectsLoading}
-              className="shrink-0 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-copy disabled:opacity-50"
+              className="shrink-0 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-[14px] font-semibold text-copy disabled:opacity-50"
             >
               {suggestion}
             </button>
@@ -145,7 +145,7 @@ export default function ChatPage() {
         <button
           type="button"
           onClick={() => setLeadOpen(true)}
-          className="mt-2 flex h-12 w-full items-center justify-center gap-2 rounded-2xl border border-gold/25 bg-gold/10 text-sm font-extrabold text-gold"
+          className="mt-2 flex h-[48px] w-full items-center justify-center gap-2 rounded-[14px] border border-gold/30 bg-gold/10 text-[14px] font-bold text-gold transition-all hover:bg-gold/15 active:scale-95"
         >
           <MessageCircle className="h-4 w-4" />
           Menejer bilan aloqa
@@ -157,12 +157,12 @@ export default function ChatPage() {
             onChange={(event) => setInput(event.target.value)}
             placeholder="Savol yozing..."
             maxLength={500}
-            className="h-12 min-w-0 flex-1 rounded-2xl border border-white/10 bg-white/[0.04] px-4 text-sm text-copy outline-none placeholder:text-muted focus:border-gold/50"
+            className="h-[48px] min-w-0 flex-1 rounded-[14px] border border-white/10 bg-white/[0.04] px-4 text-[15px] text-copy outline-none placeholder:text-muted focus:border-gold/50"
           />
           <button
             type="submit"
             aria-label="Yuborish"
-            className="gold-surface flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-ink shadow-gold"
+            className="gold-surface flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded-[14px] text-ink shadow-gold transition-all active:scale-95"
           >
             <Send className="h-5 w-5" />
           </button>

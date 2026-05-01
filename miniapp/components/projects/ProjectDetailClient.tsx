@@ -24,7 +24,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
 
   return (
     <main className="pb-24">
-      <section className="relative h-[330px] overflow-hidden">
+      <section className="relative h-[320px] overflow-hidden">
         <Image
           src={project.image}
           alt={project.title}
@@ -34,61 +34,61 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/10" />
-        <div className="absolute left-5 right-5 top-[calc(18px+var(--safe-top))] flex items-center justify-between">
-          <Link href="/projects" className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-black/30 text-copy backdrop-blur">
+        <div className="absolute left-5 right-5 top-[env(safe-area-inset-top,20px)] flex items-center justify-between">
+          <Link href="/projects" className="flex h-[44px] w-[44px] items-center justify-center rounded-[14px] border border-white/10 bg-black/30 text-copy backdrop-blur transition-all active:scale-95">
             <ArrowLeft className="h-5 w-5" />
           </Link>
-          <span className={cn('rounded-full border px-3 py-1 text-xs font-extrabold', riskStyles[project.riskLevel])}>
+          <span className={cn('rounded-full border px-3 py-1.5 text-[11px] font-bold', riskStyles[project.riskLevel])}>
             {project.riskLevel} risk
           </span>
         </div>
         <div className="absolute bottom-6 left-5 right-5">
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-gold">{project.category}</p>
-          <h1 className="mt-2 text-3xl font-extrabold leading-tight text-copy">{project.title}</h1>
-          <div className="mt-4 flex items-center gap-2 text-sm text-muted">
+          <p className="text-[12px] font-bold uppercase tracking-[0.14em] text-gold">{project.category}</p>
+          <h1 className="mt-2 text-[28px] font-bold leading-[1.35] text-copy">{project.title}</h1>
+          <div className="mt-3 flex items-center gap-2 text-[14px] text-muted">
             <MapPin className="h-4 w-4 text-gold" />
             <span>{project.location}</span>
           </div>
         </div>
       </section>
 
-      <section className="-mt-2 space-y-5 px-5">
+      <section className="-mt-2 space-y-4 px-5 pt-4">
         <div className="grid grid-cols-3 gap-3">
           <Metric icon={TrendingUp} label="ROI" value={`${project.roi}%`} />
           <Metric icon={Clock3} label="Payback" value={`${project.payback} yil`} />
           <Metric icon={BadgeDollarSign} label="Kapital" value={formatCurrencyCompact(project.amount)} />
         </div>
 
-        <section className="rounded-[24px] border border-white/10 bg-card p-5">
-          <h2 className="text-lg font-extrabold text-copy">Loyiha tavsifi</h2>
-          <p className="mt-3 text-sm leading-6 text-muted">{project.description}</p>
+        <section className="rounded-[20px] border border-white/10 bg-card p-5">
+          <h2 className="text-[17px] font-semibold text-copy">Loyiha tavsifi</h2>
+          <p className="mt-3 text-[15px] leading-[1.6] text-muted">{project.description}</p>
         </section>
 
         <ChartCard title="ROI breakdown" data={project.roiBreakdown} />
 
-        <section className="rounded-[24px] border border-white/10 bg-card p-5">
+        <section className="rounded-[20px] border border-white/10 bg-card p-5">
           <div className="mb-4 flex items-center gap-2">
             <ShieldAlert className="h-5 w-5 text-gold" />
-            <h2 className="text-lg font-extrabold text-copy">Investitsiya timeline</h2>
+            <h2 className="text-[17px] font-semibold text-copy">Investitsiya timeline</h2>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-3">
             {project.timeline.map((item) => (
-              <div key={item.quarter} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                <p className="text-xs font-bold uppercase tracking-[0.12em] text-gold">{item.quarter}</p>
-                <h3 className="mt-2 text-base font-extrabold text-copy">{item.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-muted">{item.description}</p>
+              <div key={item.quarter} className="rounded-[14px] border border-white/10 bg-white/[0.04] p-4">
+                <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-gold">{item.quarter}</p>
+                <h3 className="mt-2 text-[15px] font-semibold text-copy">{item.title}</h3>
+                <p className="mt-2 text-[14px] leading-[1.5] text-muted">{item.description}</p>
               </div>
             ))}
           </div>
         </section>
       </section>
 
-      <div className="fixed bottom-[calc(82px+var(--safe-bottom))] left-0 z-40 w-full max-w-[390px] px-5 sm:left-1/2 sm:-translate-x-1/2">
-        <div className="grid grid-cols-2 gap-3 rounded-[24px] border border-white/10 bg-ink/90 p-3 backdrop-blur-xl">
+      <div className="fixed bottom-[calc(80px+env(safe-area-inset-bottom,0px))] left-0 z-40 w-full max-w-[390px] px-5">
+        <div className="grid grid-cols-2 gap-3 rounded-[18px] border border-white/10 bg-ink/95 p-3 backdrop-blur-xl">
           <button
             type="button"
             onClick={() => setLeadIntent('invest')}
-            className="gold-surface flex h-12 items-center justify-center gap-2 rounded-2xl text-sm font-extrabold text-ink shadow-gold"
+            className="gold-surface flex h-[48px] items-center justify-center gap-2 rounded-[12px] text-[14px] font-bold text-ink shadow-gold transition-all active:scale-95"
           >
             <BadgeDollarSign className="h-4 w-4" />
             Invest
@@ -96,7 +96,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
           <button
             type="button"
             onClick={() => setLeadIntent('contact')}
-            className="flex h-12 items-center justify-center gap-2 rounded-2xl border border-gold/25 bg-gold/10 text-sm font-extrabold text-gold"
+            className="flex h-[48px] items-center justify-center gap-2 rounded-[12px] border border-gold/30 bg-gold/10 text-[14px] font-bold text-gold transition-all hover:bg-gold/15 active:scale-95"
           >
             <MessageCircle className="h-4 w-4" />
             Aloqa
@@ -117,12 +117,12 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
 
 function Metric({ icon: Icon, label, value }: { icon: LucideIcon; label: string; value: string }) {
   return (
-    <div className="rounded-[22px] border border-white/10 bg-card p-3">
-      <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-2xl bg-gold/10 text-gold">
+    <div className="rounded-[16px] border border-white/10 bg-card p-3.5">
+      <div className="mb-2.5 flex h-[36px] w-[36px] items-center justify-center rounded-[10px] bg-gold/10 text-gold">
         <Icon className="h-4 w-4" />
       </div>
       <p className="text-[11px] font-medium text-muted">{label}</p>
-      <p className="mt-1 text-base font-extrabold text-copy">{value}</p>
+      <p className="mt-1 text-[16px] font-bold text-copy">{value}</p>
     </div>
   );
 }

@@ -52,7 +52,7 @@ export default function ProjectDetailPage() {
 
   if (!id) {
     return (
-      <main className="px-5 pb-6 pt-[calc(18px+var(--safe-top))]">
+      <main className="pb-6">
         <ErrorState message="Loyiha ID topilmadi." />
       </main>
     );
@@ -60,7 +60,7 @@ export default function ProjectDetailPage() {
 
   if (loading) {
     return (
-      <main className="px-5 pb-6 pt-[calc(18px+var(--safe-top))]">
+      <main className="pb-6">
         <LoadingState title="Loyiha yuklanmoqda..." />
       </main>
     );
@@ -68,7 +68,7 @@ export default function ProjectDetailPage() {
 
   if (error || !project) {
     return (
-      <main className="px-5 pb-6 pt-[calc(18px+var(--safe-top))]">
+      <main className="pb-6">
         <ErrorState message={error || 'Loyiha topilmadi.'} onRetry={() => void loadProject(id)} />
       </main>
     );

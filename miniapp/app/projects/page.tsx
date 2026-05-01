@@ -43,16 +43,16 @@ export default function ProjectsPage() {
   }, []);
 
   return (
-    <main className="px-5 pb-6 pt-[calc(18px+var(--safe-top))]">
+    <main className="pb-6">
       <section>
-        <p className="text-xs font-bold uppercase tracking-[0.14em] text-gold">Loyihalar</p>
-        <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-copy">Investitsiya loyihalari</h1>
-        <p className="mt-3 text-sm leading-6 text-muted">
+        <p className="text-[12px] font-bold uppercase tracking-[0.14em] text-gold">Loyihalar</p>
+        <h1 className="mt-2 text-[28px] font-bold leading-[1.35] tracking-tight text-copy">Investitsiya loyihalari</h1>
+        <p className="mt-3 text-[15px] leading-[1.6] text-muted">
           ROI, payback, risk va kapital talabi bo&apos;yicha eng muhim loyihalarni Supabase DB orqali solishtiring.
         </p>
       </section>
 
-      <section className="mt-6 space-y-5">
+      <section className="mt-7 space-y-4">
         {loading ? (
           <LoadingState title="Loyihalar yuklanmoqda..." />
         ) : error ? (

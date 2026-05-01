@@ -17,8 +17,8 @@ export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 z-50 w-full max-w-[390px] border-t border-white/10 bg-ink/92 px-3 pb-[calc(10px+var(--safe-bottom))] pt-2 backdrop-blur-xl sm:left-1/2 sm:-translate-x-1/2">
-      <div className="grid grid-cols-5 gap-1">
+    <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-[390px] -translate-x-1/2 border-t border-white/10 bg-ink/95 pb-[calc(12px+env(safe-area-inset-bottom,0px))] pt-3 backdrop-blur-xl">
+      <div className="grid grid-cols-5 gap-1 px-2">
         {navItems.map((item) => {
           const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
           return (
@@ -26,13 +26,15 @@ export function BottomNav() {
               key={item.href}
               href={item.href}
               className={cn(
-                'flex h-[58px] flex-col items-center justify-center gap-1 rounded-2xl text-[11px] font-semibold transition active:scale-95',
-                active ? 'bg-gold text-ink shadow-gold' : 'text-muted hover:bg-white/[0.04] hover:text-copy'
+                'flex h-[54px] flex-col items-center justify-center gap-0.5 rounded-[14px] text-[11px] font-semibold leading-tight transition-all active:scale-95',
+                active 
+                  ? 'bg-gold text-ink shadow-gold' 
+                  : 'text-muted hover:bg-white/[0.06] hover:text-copy'
               )}
               aria-current={active ? 'page' : undefined}
             >
-              <item.icon className="h-5 w-5" />
-              <span>{item.label}</span>
+              <item.icon className="h-[22px] w-[22px]" />
+              <span className="mt-0.5">{item.label}</span>
             </Link>
           );
         })}
