@@ -27,12 +27,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <TelegramInitializer />
         <TelegramUserProvider>
           <div className="telegram-app">
-            <div className="relative mx-auto h-full w-full max-w-[390px] overflow-hidden bg-ink text-copy shadow-premium">
-              <div className="telegram-scroll-container">
-                {children}
-              </div>
-              <BottomNav />
+            <div className="telegram-scroll-container">
+              {children}
             </div>
+            <BottomNav />
           </div>
         </TelegramUserProvider>
       </body>

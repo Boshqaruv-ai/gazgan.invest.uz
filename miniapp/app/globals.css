@@ -18,7 +18,6 @@
 html {
   height: 100%;
   overflow: hidden;
-  overscroll-behavior: none;
   background: #05070d;
   color: var(--foreground);
   -webkit-text-size-adjust: 100%;
@@ -29,7 +28,6 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  overscroll-behavior: none;
   background: #05070d;
   color: var(--foreground);
   font-family: Inter, system-ui, sans-serif;
@@ -41,22 +39,20 @@ body {
 .telegram-app {
   position: fixed;
   inset: 0;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   height: 100dvh;
-  overflow: hidden;
   background: #05070d;
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .telegram-scroll-container {
-  position: absolute;
-  inset: 0;
+  flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior: none;
-  padding-top: 20px;
+  overscroll-behavior: contain;
+  padding-top: calc(20px + env(safe-area-inset-top));
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 100px;
@@ -68,18 +64,6 @@ body {
 
 .telegram-scroll-container {
   scrollbar-width: none;
-}
-
-.app-safe-top {
-  padding-top: 20px;
-}
-
-.app-section {
-  margin-bottom: 24px;
-}
-
-.app-section-lg {
-  margin-bottom: 32px;
 }
 
 button,
