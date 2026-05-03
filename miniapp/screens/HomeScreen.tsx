@@ -102,6 +102,29 @@ export function HomeScreen() {
         </div>
       </section>
 
+      <section id="products" className="mt-7 px-5">
+        <SectionHeader title="Mahsulotlar katalogi" href="/projects" />
+        {products.length > 0 ? (
+          <div className="miniapp-scrollbar -mx-5 mt-4 flex snap-x gap-3 overflow-x-auto px-5 pb-2">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        ) : (
+          <div className="mt-4 rounded-[18px] border border-white/10 bg-card p-4">
+            <div className="flex items-center gap-3">
+              <Boxes className="h-5 w-5 text-gold" />
+              <div>
+                <p className="text-[15px] font-black text-copy">Mahsulotlar tayyorlanmoqda</p>
+                <p className="mt-1 text-[13px] leading-[1.45] text-muted">
+                  Marmar plitalar, granit slab va suvenirlar Supabase katalogi yangilangandan keyin narxlari bilan chiqadi.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+
       <section className="mt-5 px-5">
         <Link
           href="/chat"
@@ -134,29 +157,6 @@ export function HomeScreen() {
           <Benefit icon={Landmark} title="Shaffof imtiyozlar" text="Soliq va bojxona shartlari hujjat bilan" />
           <Benefit icon={MapPin} title="Qulay logistika" text="Yevropa va Osiyo bozorlariga yaqinlik" />
         </div>
-      </section>
-
-      <section id="products" className="mt-7 px-5">
-        <SectionHeader title="Mahsulotlar katalogi" href="/projects" />
-        {products.length > 0 ? (
-          <div className="miniapp-scrollbar -mx-5 mt-4 flex snap-x gap-3 overflow-x-auto px-5 pb-2">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        ) : (
-          <div className="mt-4 rounded-[18px] border border-white/10 bg-card p-4">
-            <div className="flex items-center gap-3">
-              <Boxes className="h-5 w-5 text-gold" />
-              <div>
-                <p className="text-[15px] font-black text-copy">Mahsulotlar tayyorlanmoqda</p>
-                <p className="mt-1 text-[13px] leading-[1.45] text-muted">
-                  Marmar plitalar, granit slab va suvenirlar Supabase katalogi yangilangandan keyin narxlari bilan chiqadi.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
       </section>
 
       {user?.first_name ? (
