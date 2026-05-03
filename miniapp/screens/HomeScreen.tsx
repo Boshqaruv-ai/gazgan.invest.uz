@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowRight,
   Boxes,
@@ -26,13 +26,41 @@ import { useProjects } from '@/hooks/useProjects';
 import { useTelegramWebApp } from '@/hooks/useTelegramWebApp';
 import { formatProductPrice, productCategoryLabel, type FeaturedProduct } from '@/lib/products';
 import { formatCurrencyCompact } from '@/lib/utils';
+import { fetchHeroImages, type HeroImage } from '@/services/hero';
 
-const heroImage = 'https://images.unsplash.com/photo-1573156667488-5c0cec674762?auto=format&fit=crop&w=1100&q=85';
+const defaultHeroImages = [
+  'https://images.unsplash.com/photo-1573156667488-5c0cec674762?auto=format&fit=crop&w=1100&q=85',
+  'https://images.unsplash.com/photo-1584294273740-0ecc6df9f9f0?auto=format&fit=crop&w=1100&q=85',
+];
 
 export function HomeScreen() {
   useTelegramWebApp();
   const { user } = useAppTelegramUser();
   const { stats } = useProjects();
+  const [heroImages, setHeroImages] = React.useState<string[]>(defaultHeroImages);
+  const [currentHeroIndex, setCurrentHeroIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    async function loadHeroImages() {
+      try {
+        const images = await fetchHeroImages();
+        if (images.length > 0) {
+          setHeroImages(images.map((img: HeroImage) => img.image_url));
+        }
+      } catch (err) {
+        console.error('Failed to load hero images:', err);
+      }
+    }
+    loadHeroImages();
+  }, []);
+
+  React.useEffect(() => {
+    if (heroImages.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
   const { products } = useFeaturedProducts();
 
   const statCards = [
@@ -45,20 +73,26 @@ export function HomeScreen() {
   return (
     <div className="screen-shell px-0 pt-3">
       <section className="px-3">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.985 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.35 }}
-          className="relative min-h-[280px] overflow-hidden rounded-[22px] border border-white/10 bg-card shadow-premium"
-        >
-          <Image
-            src={heroImage}
-            alt="G'ozg'on marmar koni"
-            fill
-            priority
-            sizes="390px"
-            className="object-cover"
-          />
+        <div className="relative min-h-[280px] overflow-hidden rounded-[22px] border border-white/10 bg-card shadow-premium">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentHeroIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="absolute inset-0"
+            >
+              <Image
+                src={heroImages[currentHeroIndex]}
+                alt="G'ozg'on marmar koni"
+                fill
+                priority
+                sizes="390px"
+                className="object-cover"
+              />
+            </motion.div>
+          </AnimatePresence>
           <div className="absolute inset-0 bg-gradient-to-r from-[#07111A]/96 via-[#07111A]/74 to-[#07111A]/8" />
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#07111A] via-[#07111A]/70 to-transparent" />
 

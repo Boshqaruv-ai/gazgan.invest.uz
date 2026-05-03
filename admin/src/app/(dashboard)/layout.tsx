@@ -1,16 +1,17 @@
 'use client';
 
 import { signOut, useSession } from 'next-auth/react';
-import { LogOut, Package, Folder, Bell, BarChart3 } from 'lucide-react';
+import { LogOut, Package, Folder, Bell, BarChart3, Image } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-type TabKey = 'products' | 'projects' | 'notifications' | 'stats';
+type TabKey = 'products' | 'projects' | 'notifications' | 'stats' | 'hero';
 
 const tabs: Array<{ key: TabKey; label: string; icon: React.ReactNode }> = [
   { key: 'stats', label: 'Statistika', icon: <BarChart3 size={18} /> },
   { key: 'products', label: 'Mahsulotlar', icon: <Package size={18} /> },
   { key: 'projects', label: 'Loyihalar', icon: <Folder size={18} /> },
+  { key: 'hero', label: 'Hero rasmlar', icon: <Image size={18} /> },
   { key: 'notifications', label: 'Bildirishnomalar', icon: <Bell size={18} /> },
 ];
 

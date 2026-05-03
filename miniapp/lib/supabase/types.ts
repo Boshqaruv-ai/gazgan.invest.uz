@@ -406,5 +406,31 @@ export interface Database {
     Functions: Record<string, never>;
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
-  };
+      };
+      hero_images: {
+        Row: {
+          id: string;
+          title: string;
+          image_url: string;
+          is_active: boolean;
+          sort_order: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          title: string;
+          image_url: string;
+          is_active?: boolean;
+          sort_order?: number;
+        };
+        Update: {
+          id?: string;
+          title?: string;
+          image_url?: string;
+          is_active?: boolean;
+          sort_order?: number;
+        };
+        Relationships: [];
+      };
+    };
 }
