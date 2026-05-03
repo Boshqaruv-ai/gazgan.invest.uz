@@ -9,7 +9,6 @@ export async function getFeaturedProductsFromDb(): Promise<FeaturedProduct[]> {
     .from('featured_products')
     .select('id, title, category, price, currency, unit, image, description')
     .eq('is_active', true)
-    .eq('is_featured', true)
     .order('sort_order', { ascending: true });
 
   if (!error) {
