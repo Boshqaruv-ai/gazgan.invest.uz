@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #0b0f1a;
+  --color-secondary: #111827;
+  --color-accent: #f5c044;
+  --color-dark: #0b0f1a;
+}
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #0b0f1a;
+  color: #eaeaf0;
+}
+
+.hero-bg {
+  background: radial-gradient(ellipse at 20% 10%, rgba(245,192,68,0.14) 0%, transparent 34%),
+    radial-gradient(ellipse at 85% 30%, rgba(245,192,68,0.08) 0%, transparent 38%),
+    linear-gradient(180deg, #0b0f1a 0%, #0f1627 100%);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0f1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #f5c044;
+  border-radius: 4px;
+}

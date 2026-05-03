@@ -3,11 +3,11 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function DashboardPage() {
+export default function LoginPage() {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace('/investor');
+    router.replace('/admin/login');
   }, [router]);
 
   return null;
