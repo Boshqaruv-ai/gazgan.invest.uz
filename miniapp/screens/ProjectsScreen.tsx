@@ -1,8 +1,6 @@
 'use client';
 
-import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, SlidersHorizontal } from 'lucide-react';
 import { ProjectCard } from '@/components/cards/ProjectCard';
 import { ErrorState, LoadingState } from '@/components/ui/ScreenState';
 import { useProjects } from '@/hooks/useProjects';
@@ -29,18 +27,8 @@ export function ProjectsScreen() {
   }, [activeTab, projects]);
 
   return (
-    <main className="screen-shell">
-      <header className="screen-topbar">
-        <Link href="/" className="topbar-icon" aria-label="Ortga">
-          <ArrowLeft className="h-5 w-5" />
-        </Link>
-        <h1 className="text-[18px] font-extrabold text-copy">Loyihalar</h1>
-        <button type="button" className="topbar-icon" aria-label="Filtr">
-          <SlidersHorizontal className="h-5 w-5" />
-        </button>
-      </header>
-
-      <section className="miniapp-scrollbar -mx-1 mt-5 flex gap-2 overflow-x-auto px-1 pb-1">
+    <div className="screen-shell">
+      <section className="miniapp-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
         {tabs.map((tab) => {
           const active = tab.value === activeTab;
           return (
@@ -81,6 +69,6 @@ export function ProjectsScreen() {
           ))
         )}
       </section>
-    </main>
+    </div>
   );
 }

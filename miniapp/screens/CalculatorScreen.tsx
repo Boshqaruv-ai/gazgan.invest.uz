@@ -1,9 +1,8 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Download, ChevronDown } from 'lucide-react';
+import { Download, ChevronDown } from 'lucide-react';
 import { Bar, BarChart, Cell, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { LeadModal } from '@/components/leads/LeadModal';
 import { PremiumButton } from '@/components/ui/PremiumButton';
@@ -58,21 +57,13 @@ export function CalculatorScreen() {
   ], [roi]);
 
   return (
-    <main className="screen-shell">
-      <header className="screen-topbar">
-        <Link href="/" className="topbar-icon" aria-label="Ortga">
-          <ArrowLeft className="h-5 w-5" />
-        </Link>
-        <h1 className="text-[18px] font-extrabold text-copy">ROI Kalkulyator</h1>
-        <span className="h-[38px] w-[38px]" />
-      </header>
-
+    <div className="screen-shell">
       {loading ? (
-        <section className="mt-5">
+        <section>
           <LoadingState title="Kalkulyator yuklanmoqda..." />
         </section>
       ) : error ? (
-        <section className="mt-5">
+        <section>
           <ErrorState message={error} onRetry={() => void loadOptions()} />
         </section>
       ) : selected ? (
@@ -80,7 +71,7 @@ export function CalculatorScreen() {
           <motion.section
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-5 rounded-[16px] border border-white/10 bg-card p-4 shadow-premium"
+            className="rounded-[16px] border border-white/10 bg-card p-4 shadow-premium"
           >
             <label className="block">
               <span className="text-[13px] text-muted">Investitsiya summasi</span>
@@ -179,7 +170,7 @@ export function CalculatorScreen() {
           />
         </>
       ) : null}
-    </main>
+    </div>
   );
 }
 

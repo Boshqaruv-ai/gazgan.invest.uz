@@ -8,6 +8,10 @@ interface TelegramWebApp {
   initDataUnsafe?: {
     user?: TelegramUser;
   };
+  viewportHeight?: number;
+  viewportStableHeight?: number;
+  onEvent?: (eventType: string, eventHandler: () => void) => void;
+  offEvent?: (eventType: string, eventHandler: () => void) => void;
   BackButton?: {
     show: () => void;
     hide: () => void;
@@ -56,18 +60,38 @@ export function getTelegramInitData() {
   return getTelegramWebApp()?.initData ?? '';
 }
 
+export function syncTelegramViewport(webApp = getTelegramWebApp()) {
+  if (typeof document === 'undefined') return;
+
+  const viewportHeight = webApp?.viewportHeight && webApp.viewportHeight > 0
+    ? `${webApp.viewportHeight}px`
+    : '100dvh';
+  const stableHeight = webApp?.viewportStableHeight && webApp.viewportStableHeight > 0
+    ? `${webApp.viewportStableHeight}px`
+    : viewportHeight;
+
+  document.documentElement.style.setProperty('--tg-viewport-height', viewportHeight);
+  document.documentElement.style.setProperty('--tg-stable-height', stableHeight);
+  document.documentElement.style.setProperty('--tg-safe-top', 'max(env(safe-area-inset-top), 16px)');
+}
+
 export function initializeTelegramApp() {
   const webApp = getTelegramWebApp();
+  syncTelegramViewport(webApp);
+
+  document.documentElement.style.overscrollBehavior = 'none';
+  document.body.style.overscrollBehavior = 'none';
+  document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
+  document.body.style.backgroundColor = '#0B0F1A';
+  document.documentElement.style.backgroundColor = '#0B0F1A';
+
   if (!webApp) return false;
 
   webApp.ready?.();
   webApp.expand?.();
   webApp.disableVerticalSwipes?.();
-
-  document.documentElement.style.overscrollBehavior = 'none';
-  document.body.style.overscrollBehavior = 'none';
-  document.body.style.backgroundColor = '#0B0F1A';
-  document.documentElement.style.backgroundColor = '#0B0F1A';
+  syncTelegramViewport(webApp);
 
   const supportsColorControls = !webApp.isVersionAtLeast || webApp.isVersionAtLeast('6.1');
   if (supportsColorControls) {

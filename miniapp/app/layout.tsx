@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { BottomNav } from '@/components/layout/BottomNav';
+import { MiniAppHeader } from '@/components/layout/MiniAppHeader';
 import { TelegramInitializer } from '@/components/layout/TelegramInitializer';
 import { TelegramUserProvider } from '@/components/layout/TelegramUserProvider';
 import './globals.css';
@@ -27,10 +28,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <TelegramInitializer />
         <TelegramUserProvider>
           <div className="telegram-app">
-            <div className="telegram-scroll-container">
-              {children}
+            <div className="miniapp-frame">
+              <MiniAppHeader />
+              <main className="miniapp-content">
+                {children}
+              </main>
+              <BottomNav />
             </div>
-            <BottomNav />
           </div>
         </TelegramUserProvider>
       </body>

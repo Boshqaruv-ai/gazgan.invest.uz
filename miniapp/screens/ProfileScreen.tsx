@@ -42,17 +42,17 @@ export function ProfileScreen() {
 
   if (loading) {
     return (
-      <main className="screen-shell">
+      <div className="screen-shell">
         <LoadingState title="Profil yuklanmoqda..." />
-      </main>
+      </div>
     );
   }
 
   if (error || !user || !summary) {
     return (
-      <main className="screen-shell">
+      <div className="screen-shell">
         <ErrorState message={error || 'Profil topilmadi.'} onRetry={() => void loadProfile()} />
-      </main>
+      </div>
     );
   }
 
@@ -60,15 +60,8 @@ export function ProfileScreen() {
   const level = user.investor_level ?? 'standard';
 
   return (
-    <main className="screen-shell">
-      <header className="flex items-center justify-between">
-        <span className="text-[12px] font-bold text-muted">9:41</span>
-        <button type="button" className="topbar-icon" aria-label="Sozlamalar">
-          <Settings className="h-5 w-5" />
-        </button>
-      </header>
-
-      <motion.section initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mt-4">
+    <div className="screen-shell">
+      <motion.section initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center gap-3">
           <div className="flex h-[64px] w-[64px] shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.05] text-[22px] font-extrabold text-gold">
             {displayName.slice(0, 1).toUpperCase() || <UserRound className="h-7 w-7" />}
@@ -136,7 +129,7 @@ export function ProfileScreen() {
       >
         Chiqish
       </PremiumButton>
-    </main>
+    </div>
   );
 }
 

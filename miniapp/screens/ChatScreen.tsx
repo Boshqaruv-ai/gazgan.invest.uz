@@ -86,7 +86,7 @@ export function ChatScreen() {
   }
 
   return (
-    <main className="screen-shell flex min-h-full flex-col pb-[calc(154px+env(safe-area-inset-bottom,0px))]">
+    <div className="screen-shell flex min-h-full flex-col pb-[calc(154px+env(safe-area-inset-bottom,0px))]">
       <header className="flex items-center gap-3">
         <div className="relative flex h-[58px] w-[58px] shrink-0 items-center justify-center rounded-full bg-[radial-gradient(circle_at_30%_20%,#FFF0A3,#C9A84C_38%,#2B210A_76%)] shadow-[0_0_26px_rgba(201,168,76,0.35)]">
           <div className="flex h-[39px] w-[39px] items-center justify-center rounded-full bg-[#0B0F1A]">
@@ -172,7 +172,7 @@ export function ChatScreen() {
         projectTitle="AI investor konsultatsiyasi"
         intent="contact"
       />
-    </main>
+    </div>
   );
 }
 

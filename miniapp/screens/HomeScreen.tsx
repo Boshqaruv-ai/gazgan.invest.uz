@@ -5,8 +5,6 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
   ArrowRight,
-  Bell,
-  Bot,
   Boxes,
   BriefcaseBusiness,
   ChevronRight,
@@ -18,7 +16,6 @@ import {
   MapPin,
   PieChart,
   ShieldCheck,
-  Sparkles,
   type LucideIcon,
 } from 'lucide-react';
 import { PremiumButton } from '@/components/ui/PremiumButton';
@@ -45,33 +42,8 @@ export function HomeScreen() {
   ];
 
   return (
-    <main className="screen-shell px-0 pt-[calc(16px+env(safe-area-inset-top,0px))]">
-      <div className="px-5">
-        <motion.header
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-between gap-4"
-        >
-          <div className="flex items-center gap-3">
-            <div className="grid h-[42px] w-[42px] place-items-center rounded-full bg-gold text-[#0B0F1A] shadow-gold">
-              <span className="text-[28px] font-black leading-none">G</span>
-            </div>
-            <p className="text-[20px] font-black tracking-tight text-copy">
-              <span className="text-gold">GAZGAN</span> INVEST
-            </p>
-          </div>
-          <button
-            type="button"
-            aria-label="Bildirishnomalar"
-            className="relative flex h-[42px] w-[42px] items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-white"
-          >
-            <Bell className="h-6 w-6" />
-            <span className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full bg-gold" />
-          </button>
-        </motion.header>
-      </div>
-
-      <section className="mt-5 px-3">
+    <div className="screen-shell px-0">
+      <section className="px-3">
         <motion.div
           initial={{ opacity: 0, scale: 0.985 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -190,7 +162,7 @@ export function HomeScreen() {
       {user?.first_name ? (
         <p className="mt-6 text-center text-[11px] text-muted">Telegram investor: {user.first_name}</p>
       ) : null}
-    </main>
+    </div>
   );
 }
 

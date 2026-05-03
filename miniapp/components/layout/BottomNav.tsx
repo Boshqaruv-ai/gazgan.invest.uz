@@ -17,7 +17,7 @@ export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-[390px] -translate-x-1/2 border-t border-white/10 bg-[#0B0F1A]/96 pb-[calc(9px+env(safe-area-inset-bottom,0px))] pt-2 backdrop-blur-xl">
+    <nav className="absolute bottom-0 left-0 z-50 w-full border-t border-white/10 bg-[#0B0F1A]/96 pb-[calc(9px+env(safe-area-inset-bottom,0px))] pt-2 backdrop-blur-xl">
       <div className="grid grid-cols-5 gap-1 px-2">
         {navItems.map((item) => {
           const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);

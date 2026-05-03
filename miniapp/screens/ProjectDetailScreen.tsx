@@ -2,9 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, BriefcaseBusiness, CalendarDays, Clock3, FileText, ImageIcon, MapPin, Share2, ShieldCheck, Star, TrendingUp, Users, type LucideIcon } from 'lucide-react';
+import { BriefcaseBusiness, CalendarDays, Clock3, FileText, ImageIcon, MapPin, Share2, ShieldCheck, Star, TrendingUp, Users, type LucideIcon } from 'lucide-react';
 import { ChartCard } from '@/components/charts/ChartCard';
 import { FundingProgress } from '@/components/projects/FundingProgress';
 import { ProjectTypeBadge } from '@/components/projects/ProjectStatusBadge';
@@ -59,17 +58,17 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
 
   if (loading) {
     return (
-      <main className="screen-shell">
+      <div className="screen-shell">
         <LoadingState title="Loyiha yuklanmoqda..." />
-      </main>
+      </div>
     );
   }
 
   if (error || !project) {
     return (
-      <main className="screen-shell">
+      <div className="screen-shell">
         <ErrorState message={error || 'Loyiha topilmadi.'} onRetry={() => void loadProject()} />
-      </main>
+      </div>
     );
   }
 
@@ -102,7 +101,7 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
   const images = project.images.length > 0 ? project.images : [project.image];
 
   return (
-    <main className="screen-shell px-0 pb-[calc(154px+env(safe-area-inset-bottom,0px))] pt-0">
+    <div className="screen-shell px-0 pb-[calc(154px+env(safe-area-inset-bottom,0px))] pt-0">
       <section className="relative h-[263px] overflow-hidden rounded-b-[22px]">
         <Image
           src={images[activeImage] ?? project.image}
@@ -113,10 +112,7 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F1A] via-[#0B0F1A]/20 to-[#0B0F1A]/20" />
-        <div className="absolute left-5 right-5 top-[calc(14px+env(safe-area-inset-top,0px))] flex items-center justify-between">
-          <Link href="/projects" className="topbar-icon bg-black/20" aria-label="Ortga">
-            <ArrowLeft className="h-5 w-5" />
-          </Link>
+        <div className="absolute left-5 right-5 top-4 flex items-center justify-end">
           <div className="flex gap-2">
             <button type="button" onClick={saveProject} className="topbar-icon bg-black/20" aria-label="Saqlash">
               <Star className={cn('h-5 w-5', saved ? 'fill-gold text-gold' : 'text-white')} />
@@ -218,7 +214,7 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
         projectTitle={project.title}
         intent={leadIntent ?? 'contact'}
       />
-    </main>
+    </div>
   );
 }
 
