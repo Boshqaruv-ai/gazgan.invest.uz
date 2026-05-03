@@ -259,6 +259,54 @@ export interface Database {
           }
         ];
       };
+      featured_products: {
+        Row: {
+          id: string;
+          title: string;
+          category: 'marble_slabs' | 'granite_slabs' | 'souvenirs' | 'tiles' | 'other';
+          price: number;
+          currency: string;
+          unit: string;
+          image: string;
+          description: string | null;
+          is_featured: boolean;
+          is_active: boolean;
+          sort_order: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id: string;
+          title: string;
+          category: 'marble_slabs' | 'granite_slabs' | 'souvenirs' | 'tiles' | 'other';
+          price: number;
+          currency?: string;
+          unit: string;
+          image: string;
+          description?: string | null;
+          is_featured?: boolean;
+          is_active?: boolean;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          title?: string;
+          category?: 'marble_slabs' | 'granite_slabs' | 'souvenirs' | 'tiles' | 'other';
+          price?: number;
+          currency?: string;
+          unit?: string;
+          image?: string;
+          description?: string | null;
+          is_featured?: boolean;
+          is_active?: boolean;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       projects: {
         Row: {
           id: string;
