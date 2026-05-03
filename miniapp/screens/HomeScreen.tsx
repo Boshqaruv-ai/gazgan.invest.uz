@@ -63,15 +63,17 @@ export function HomeScreen() {
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#07111A] via-[#07111A]/70 to-transparent" />
 
           <div className="relative z-10 flex min-h-[310px] flex-col justify-end p-5">
-            <div className="mb-7 inline-flex w-fit max-w-full items-center gap-2 rounded-[14px] border border-white/10 bg-white/[0.12] px-3 py-2 text-[12px] font-bold text-white shadow-premium backdrop-blur-md">
+            <div className="mb-5 inline-flex w-fit max-w-full items-center gap-2 rounded-[14px] border border-white/10 bg-white/[0.12] px-3 py-2 text-[11px] font-bold text-white shadow-premium backdrop-blur-md">
               <ShieldCheck className="h-4 w-4 shrink-0 text-gold" />
               <span className="truncate">O&apos;zbekistonning ishonchli investitsion platformasi</span>
             </div>
 
-            <h1 className="max-w-[315px] text-[36px] font-black leading-[1.08] tracking-tight text-white">
-              G&apos;ozg&apos;on - O&apos;zbekistonning marmar va granit <span className="text-gold">yuragi</span>
+            <h1 className="max-w-[300px] text-[28px] font-black leading-[1.1] tracking-tight text-white">
+              <span className="text-gold">G&apos;ozg&apos;on</span>
+              <br />
+              <span className="text-white/90">Marmar va granit yuragi</span>
             </h1>
-            <p className="mt-4 max-w-[285px] text-[18px] font-medium leading-[1.55] text-white/78">
+            <p className="mt-4 max-w-[280px] text-[15px] font-medium leading-[1.5] text-white/75">
               Yuqori daromadli investitsiya imkoniyatlari sizni kutmoqda
             </p>
 

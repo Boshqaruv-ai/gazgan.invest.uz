@@ -135,10 +135,10 @@ function HeaderAction({ action }: { action?: HeaderVariant['action'] }) {
         : 'Bildirishnomalar';
 
   return (
-    <button type="button" className="topbar-icon relative" aria-label={label}>
+    <button type="button" className="topbar-icon relative shrink-0" aria-label={label}>
       <Icon className="h-5 w-5" />
       {action === 'bell' ? (
-        <span className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full bg-gold" />
+        <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-gold" />
       ) : null}
     </button>
   );
