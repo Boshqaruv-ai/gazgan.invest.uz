@@ -16,6 +16,7 @@ interface Product {
   price: number;
   priceUnit?: string;
   unit?: string;
+  currency?: string;
   image: string;
   imageAlt?: string;
   description?: string | null;
@@ -53,7 +54,7 @@ export function ProductCard({ product }: { product: Product }) {
           </div>
           <div className="rounded-2xl border border-accent/25 bg-accent/10 px-3 py-2 text-right">
             <div className="text-xs text-accent/80">Taxm. narx</div>
-            <div className="font-bold text-accent">~{product.price} {product.currency || '$'}/{product.priceUnit || product.unit}</div>
+            <div className="font-bold text-accent">~{product.price} {product.currency ? product.currency : '$'}/{product.priceUnit || product.unit}</div>
           </div>
         </div>
 
