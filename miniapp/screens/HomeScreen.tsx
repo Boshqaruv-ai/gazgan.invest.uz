@@ -103,9 +103,9 @@ export function HomeScreen() {
       </section>
 
       <section id="products" className="mt-7 px-5">
-        <SectionHeader title="Mahsulotlar katalogi" href="/projects" />
+        <SectionHeader title="Mahsulotlar katalogi" href="/products" />
         {products.length > 0 ? (
-          <div className="miniapp-scrollbar -mx-5 mt-4 flex snap-x gap-3 overflow-x-auto px-5 pb-2">
+          <div className="mt-4 grid grid-cols-2 gap-3">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
@@ -205,21 +205,18 @@ function Benefit({ icon: Icon, title, text }: { icon: LucideIcon; title: string;
 
 function ProductCard({ product }: { product: FeaturedProduct }) {
   return (
-    <article className="w-[170px] shrink-0 snap-start overflow-hidden rounded-[18px] border border-white/10 bg-card shadow-premium">
-      <div className="relative h-[100px]">
-        <Image src={product.image} alt={product.title} fill sizes="170px" className="object-cover" />
+    <Link href={`/products/${product.id}`} className="block overflow-hidden rounded-[18px] border border-white/10 bg-card shadow-premium">
+      <div className="relative h-[90px]">
+        <Image src={product.image} alt={product.title} fill sizes="200px" className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F1A]/82 via-transparent to-transparent" />
         <span className="absolute left-2 top-2 rounded-full bg-gold px-2 py-0.5 text-[9px] font-black text-[#0B0F1A]">
           {productCategoryLabel(product.category)}
         </span>
       </div>
       <div className="p-2.5">
-        <h3 className="line-clamp-2 min-h-[32px] text-[13px] font-black leading-[1.25] text-copy">{product.title}</h3>
-        <p className="mt-1 text-[14px] font-black text-gold">{formatProductPrice(product)}</p>
-        {product.description ? (
-          <p className="mt-1 line-clamp-2 text-[10px] leading-[1.35] text-muted">{product.description}</p>
-        ) : null}
+        <h3 className="line-clamp-2 text-[12px] font-black leading-[1.25] text-copy">{product.title}</h3>
+        <p className="mt-1 text-[13px] font-black text-gold">{formatProductPrice(product)}</p>
       </div>
-    </article>
+    </Link>
   );
 }
