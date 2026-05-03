@@ -204,10 +204,25 @@ function Benefit({ icon: Icon, title, text }: { icon: LucideIcon; title: string;
 }
 
 function ProductCard({ product }: { product: FeaturedProduct }) {
+  const [imgError, setImgError] = React.useState(false);
+  
   return (
-    <Link href={`/products/${product.id}`} className="block overflow-hidden rounded-[18px] border border-white/10 bg-card shadow-premium">
+    <Link href="/products" className="block overflow-hidden rounded-[18px] border border-white/10 bg-card shadow-premium">
       <div className="relative h-[90px]">
-        <Image src={product.image} alt={product.title} fill sizes="200px" className="object-cover" />
+        {!imgError ? (
+          <Image 
+            src={product.image} 
+            alt={product.title} 
+            fill 
+            sizes="200px" 
+            className="object-cover"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div className="absolute inset-0 bg-card flex items-center justify-center">
+            <Boxes className="h-8 w-8 text-muted" />
+          </div>
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F1A]/82 via-transparent to-transparent" />
         <span className="absolute left-2 top-2 rounded-full bg-gold px-2 py-0.5 text-[9px] font-black text-[#0B0F1A]">
           {productCategoryLabel(product.category)}
