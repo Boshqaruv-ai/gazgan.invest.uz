@@ -30,12 +30,26 @@ export function TelegramUserProvider({ children }: { children: React.ReactNode }
     setError(null);
 
     try {
+      const initData = getTelegramInitData();
+      const telegramUser = getTelegramUser();
+
+      if (!initData) {
+        setUser({
+          telegram_id: telegramUser.id ? String(telegramUser.id) : 'local_preview',
+          first_name: telegramUser.first_name ?? 'Investor',
+          username: telegramUser.username ?? 'local_preview',
+          investor_level: 'standard',
+          member_since: new Date().toISOString().slice(0, 10),
+        });
+        return;
+      }
+
       const response = await fetch('/api/telegram/user', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          initData: getTelegramInitData(),
-          user: getTelegramUser(),
+          initData,
+          user: telegramUser,
         }),
       });
       const payload = await response.json() as { user?: AppTelegramUser; error?: string };
