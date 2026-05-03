@@ -11,6 +11,8 @@ export interface Product {
   finish: string;
   price: number;
   priceUnit: string;
+  currency?: string;
+  unit?: string;
   description: string;
   features: string[];
   image: string;
