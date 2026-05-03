@@ -2,17 +2,18 @@
 
 import * as React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useFeaturedProducts } from '@/hooks/useFeaturedProducts';
 import { MiniAppHeader } from '@/components/layout/MiniAppHeader';
 import { productCategoryLabel, formatProductPrice, type FeaturedProduct } from '@/lib/products';
-import { Boxes } from 'lucide-react';
+import { Boxes, ArrowLeft } from 'lucide-react';
 
 export default function ProductsPage() {
   const { products, loading } = useFeaturedProducts();
 
   return (
     <div className="screen-shell">
-      <MiniAppHeader title="Mahsulotlar katalogi" />
+      <MiniAppHeader />
       <div className="p-4">
         {loading ? (
           <p className="text-center text-muted">Yuklanmoqda...</p>
