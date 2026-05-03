@@ -1,6 +1,8 @@
 import Image from 'next/image';
-import Link from 'next/link';
-import { Clock3, TrendingUp } from 'lucide-react';
+import { MapPin } from 'lucide-react';
+import { FundingProgress } from '@/components/projects/FundingProgress';
+import { ProjectStatusBadge, ProjectTypeBadge } from '@/components/projects/ProjectStatusBadge';
+import { PremiumButton } from '@/components/ui/PremiumButton';
 import type { Project } from '@/lib/projects';
 import { cn } from '@/lib/utils';
 import { formatCurrencyCompact } from '@/lib/utils';
@@ -13,14 +15,13 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project, priority = false, variant = 'rail' }: ProjectCardProps) {
   return (
-    <Link
-      href={`/projects/${project.id}`}
+    <article
       className={cn(
         'block overflow-hidden rounded-[20px] border border-white/10 bg-card shadow-premium',
         variant === 'rail' ? 'w-[280px] shrink-0 snap-start' : 'w-full'
       )}
     >
-      <div className="relative h-[140px] overflow-hidden">
+      <div className="relative h-[135px] overflow-hidden">
         <Image
           src={project.image}
           alt={project.title}
@@ -29,41 +30,46 @@ export function ProjectCard({ project, priority = false, variant = 'rail' }: Pro
           sizes="280px"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/82 via-ink/10 to-transparent" />
-        {project.highlight ? (
-          <div className="absolute left-3 top-3 rounded-full bg-emerald-400 px-3 py-1 text-[11px] font-bold text-ink">
-            High return
-          </div>
-        ) : null}
-      </div>
-      <div className="p-4">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-semibold text-muted">
-            {project.category}
-          </span>
-          <span className="text-[14px] font-bold text-gold">{project.roi}% ROI</span>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F1A]/88 via-[#0B0F1A]/18 to-transparent" />
+        <ProjectStatusBadge status={project.status} className="absolute left-3 top-3" />
+        <div className="absolute right-3 top-3">
+          <ProjectTypeBadge type={project.projectType} />
         </div>
-        <h3 className="line-clamp-2 min-h-[48px] text-[17px] font-semibold leading-[1.45] text-copy">
+      </div>
+      <div className="p-4 pt-3">
+        <h3 className="line-clamp-2 text-[16px] font-extrabold leading-[1.35] text-copy">
           {project.title}
         </h3>
-        <p className="mt-2 line-clamp-2 min-h-[40px] text-[13px] leading-[1.5] text-muted">{project.description}</p>
-        <div className="mt-4 grid grid-cols-2 gap-2.5">
-          <div className="rounded-[12px] bg-white/[0.04] p-3">
-            <div className="flex items-center gap-1.5 text-[11px] text-muted">
-              <TrendingUp className="h-3.5 w-3.5" />
-              Kapital
-            </div>
-            <p className="mt-1 text-[14px] font-bold text-copy">{formatCurrencyCompact(project.amount)}</p>
-          </div>
-          <div className="rounded-[12px] bg-white/[0.04] p-3">
-            <div className="flex items-center gap-1.5 text-[11px] text-muted">
-              <Clock3 className="h-3.5 w-3.5" />
-              Payback
-            </div>
-            <p className="mt-1 text-[14px] font-bold text-copy">{project.payback} yil</p>
-          </div>
+        <div className="mt-2 flex items-center gap-1.5 text-[12px] text-muted">
+          <MapPin className="h-3.5 w-3.5 text-gold" />
+          <span className="min-w-0 truncate">{project.location}</span>
         </div>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <span className="rounded-full bg-white/[0.06] px-2.5 py-1 text-[11px] font-medium text-white/80">{project.category}</span>
+          <span className="rounded-full bg-white/[0.06] px-2.5 py-1 text-[11px] font-medium text-white/80">
+            {project.projectType === 'processing' ? 'Zavod' : 'Kon'}
+          </span>
+        </div>
+        <div className="mt-4 grid grid-cols-4 gap-2">
+          <Metric label="ROI" value={`${project.expectedReturn}%`} />
+          <Metric label="Investitsiya" value={formatCurrencyCompact(project.investmentRequired)} />
+          <Metric label="Payback" value={`${project.paybackYears} yil`} />
+          <Metric label="Mablag'" value={`${project.fundingPercentage}%`} />
+        </div>
+        <FundingProgress percentage={project.fundingPercentage} spotsLeft={project.spotsLeft} className="mt-3" />
+        <PremiumButton href={`/projects/${project.id}`} className="mt-4 h-[44px] min-h-[44px]" trailingIcon={false}>
+          Batafsil ko&apos;rish
+        </PremiumButton>
       </div>
-    </Link>
+    </article>
+  );
+}
+
+function Metric({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p className="truncate text-[11px] leading-none text-muted">{label}</p>
+      <p className="mt-1.5 truncate text-[15px] font-extrabold leading-none text-copy">{value}</p>
+    </div>
   );
 }

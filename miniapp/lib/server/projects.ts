@@ -3,7 +3,43 @@ import 'server-only';
 import { toProject, type Project } from '@/lib/projects';
 import { getSupabaseAdmin } from '@/lib/supabase/server';
 
-const PROJECT_COLUMNS = 'id, title, category, roi, payback, amount, image, highlight, description, location, risk_level, timeline, roi_breakdown';
+const PROJECT_COLUMNS = `
+  id,
+  title,
+  category,
+  project_type,
+  status,
+  roi,
+  payback,
+  payback_years,
+  expected_return,
+  amount,
+  investment_required,
+  investment_raised,
+  funding_percentage,
+  spots_left,
+  investors_count,
+  image,
+  images,
+  gallery_images,
+  highlight,
+  description,
+  location,
+  risk_level,
+  trust_level,
+  timeline,
+  roi_breakdown,
+  project_documents (
+    id,
+    project_id,
+    title,
+    file_url,
+    document_type,
+    issuer,
+    is_verified,
+    created_at
+  )
+`;
 
 export async function getProjectsFromDb(): Promise<Project[]> {
   const supabase = getSupabaseAdmin();

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,7 +6,9 @@
 
 :root {
   --background: #0b0f1a;
-  --foreground: #f6f7fb;
+  --foreground: #ffffff;
+  --card: #121826;
+  --gold: #c9a84c;
   --safe-top: env(safe-area-inset-top);
   --safe-bottom: env(safe-area-inset-bottom);
 }
@@ -15,25 +17,25 @@
   box-sizing: border-box;
 }
 
-html {
-  height: 100%;
-  overflow: hidden;
-  background: #05070d;
-  color: var(--foreground);
-  -webkit-text-size-adjust: 100%;
-}
-
+html,
 body {
   height: 100%;
   margin: 0;
-  padding: 0;
   overflow: hidden;
-  background: #05070d;
+  overscroll-behavior: none;
+  background: var(--background);
   color: var(--foreground);
   font-family: Inter, system-ui, sans-serif;
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
   -webkit-overflow-scrolling: touch;
+}
+
+body {
+  position: fixed;
+  inset: 0;
+  width: 100%;
 }
 
 .telegram-app {
@@ -43,50 +45,122 @@ body {
   flex-direction: column;
   height: 100vh;
   height: 100dvh;
-  background: #05070d;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(201, 168, 76, 0.11), transparent 26%),
+    radial-gradient(circle at 90% 8%, rgba(48, 93, 133, 0.16), transparent 32%),
+    #0b0f1a;
 }
 
 .telegram-scroll-container {
+  width: 100%;
+  max-width: 390px;
+  height: 100%;
+  margin: 0 auto;
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
+  overscroll-behavior: none;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-  padding-top: calc(20px + env(safe-area-inset-top));
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: calc(100px + env(safe-area-inset-bottom));
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  background:
+    linear-gradient(180deg, rgba(2, 8, 14, 0.84), rgba(11, 15, 26, 0.96)),
+    #0b0f1a;
 }
 
-.telegram-scroll-container::-webkit-scrollbar {
-  display: none;
-}
-
-.telegram-scroll-container {
-  scrollbar-width: none;
-}
-
-button,
-a,
-input {
-  -webkit-tap-highlight-color: transparent;
-}
-
-.miniapp-scrollbar {
-  scrollbar-width: none;
-}
-
+.telegram-scroll-container::-webkit-scrollbar,
 .miniapp-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
-.glass-panel {
-  background: rgba(21, 27, 43, 0.82);
+.telegram-scroll-container,
+.miniapp-scrollbar {
+  scrollbar-width: none;
+}
+
+.screen-shell {
+  min-height: 100%;
+  padding: calc(18px + env(safe-area-inset-top, 0px)) 20px calc(104px + env(safe-area-inset-bottom, 0px));
+}
+
+.screen-topbar {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.topbar-icon {
+  display: inline-flex;
+  height: 38px;
+  width: 38px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+  background: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+  backdrop-filter: blur(16px);
+  transition: transform 300ms ease, background 300ms ease;
+}
+
+.topbar-icon:active {
+  transform: scale(0.96);
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input[type='range'] {
+  height: 24px;
+  background: transparent;
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #c9a84c, #f1c94f);
+}
+
+input[type='range']::-webkit-slider-thumb {
+  width: 18px;
+  height: 18px;
+  margin-top: -7px;
+  appearance: none;
+  border-radius: 999px;
+  background: #f1c94f;
+  box-shadow: 0 0 20px rgba(201, 168, 76, 0.42);
+}
+
+input[type='range']::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #c9a84c, #f1c94f);
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 999px;
+  background: #f1c94f;
+}
+
+.glass-panel {
+  background: rgba(18, 24, 38, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
   backdrop-filter: blur(18px);
 }
 
 .gold-surface {
-  background: linear-gradient(135deg, #d4af37 0%, #f0d875 100%);
+  background: linear-gradient(135deg, #c9a84c 0%, #f1c94f 100%);
 }

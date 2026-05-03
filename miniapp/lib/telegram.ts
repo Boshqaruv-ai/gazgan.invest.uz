@@ -8,8 +8,18 @@ interface TelegramWebApp {
   initDataUnsafe?: {
     user?: TelegramUser;
   };
+  BackButton?: {
+    show: () => void;
+    hide: () => void;
+    onClick: (callback: () => void) => void;
+    offClick: (callback: () => void) => void;
+  };
+  HapticFeedback?: {
+    impactOccurred: (style: 'light' | 'medium' | 'heavy' | 'rigid' | 'soft') => void;
+  };
   ready?: () => void;
   expand?: () => void;
+  close?: () => void;
   disableVerticalSwipes?: () => void;
   requestFullscreen?: () => void;
   setHeaderColor?: (color: string) => void;
@@ -27,6 +37,7 @@ declare global {
 }
 
 const fallbackUser: TelegramUser = {
+  id: 10001,
   first_name: 'Investor',
   username: 'local_preview',
   language_code: 'uz',
@@ -53,6 +64,11 @@ export function initializeTelegramApp() {
   webApp.expand?.();
   webApp.disableVerticalSwipes?.();
 
+  document.documentElement.style.overscrollBehavior = 'none';
+  document.body.style.overscrollBehavior = 'none';
+  document.body.style.backgroundColor = '#0B0F1A';
+  document.documentElement.style.backgroundColor = '#0B0F1A';
+
   const supportsColorControls = !webApp.isVersionAtLeast || webApp.isVersionAtLeast('6.1');
   if (supportsColorControls) {
     webApp.setHeaderColor?.('#0B0F1A');
@@ -72,6 +88,18 @@ export function initializeTelegramApp() {
   }
 
   return true;
+}
+
+export function closeTelegramApp() {
+  getTelegramWebApp()?.close?.();
+}
+
+export function triggerTelegramHaptic(style: 'light' | 'medium' | 'heavy' | 'rigid' | 'soft' = 'light') {
+  try {
+    getTelegramWebApp()?.HapticFeedback?.impactOccurred(style);
+  } catch {
+    // Haptics are optional and unavailable in regular browser previews.
+  }
 }
 
 export function useTelegramUser() {

@@ -7,6 +7,8 @@ export interface AppTelegramUser {
   telegram_id: string;
   first_name: string | null;
   username: string | null;
+  investor_level?: 'standard' | 'gold' | 'platinum';
+  member_since?: string;
 }
 
 interface TelegramUserContextValue {

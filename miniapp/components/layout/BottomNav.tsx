@@ -17,7 +17,7 @@ export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-[390px] -translate-x-1/2 border-t border-white/10 bg-ink/95 pb-[calc(12px+env(safe-area-inset-bottom,0px))] pt-3 backdrop-blur-xl">
+    <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-[390px] -translate-x-1/2 border-t border-white/10 bg-[#0B0F1A]/96 pb-[calc(9px+env(safe-area-inset-bottom,0px))] pt-2 backdrop-blur-xl">
       <div className="grid grid-cols-5 gap-1 px-2">
         {navItems.map((item) => {
           const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
@@ -26,14 +26,16 @@ export function BottomNav() {
               key={item.href}
               href={item.href}
               className={cn(
-                'flex h-[54px] flex-col items-center justify-center gap-0.5 rounded-[14px] text-[11px] font-semibold leading-tight transition-all active:scale-95',
+                'flex h-[56px] flex-col items-center justify-center gap-1 rounded-[14px] text-[10px] font-semibold leading-tight transition-all duration-300 active:scale-95',
                 active 
-                  ? 'bg-gold text-ink shadow-gold' 
-                  : 'text-muted hover:bg-white/[0.06] hover:text-copy'
+                  ? 'text-gold' 
+                  : 'text-muted hover:bg-white/[0.04] hover:text-copy'
               )}
               aria-current={active ? 'page' : undefined}
             >
-              <item.icon className="h-[22px] w-[22px]" />
+              <span className={cn('grid h-[24px] w-[24px] place-items-center rounded-[8px]', active && 'bg-gold text-[#0B0F1A] shadow-gold')}>
+                <item.icon className="h-[18px] w-[18px]" />
+              </span>
               <span className="mt-0.5">{item.label}</span>
             </Link>
           );

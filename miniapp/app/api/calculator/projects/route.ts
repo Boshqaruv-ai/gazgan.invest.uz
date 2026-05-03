@@ -9,9 +9,10 @@ export async function GET() {
       options: projects.map((project) => ({
         id: project.id,
         title: project.title,
-        roi: project.roi,
-        payback: project.payback,
-        amount: project.amount,
+        project_type: project.projectType,
+        expected_return: project.expectedReturn,
+        payback_years: project.paybackYears,
+        investment_required: project.investmentRequired,
         riskLevel: project.riskLevel,
       })),
     });

@@ -5,17 +5,17 @@ module.exports = {
     extend: {
       colors: {
         ink: '#0B0F1A',
-        panel: '#111827',
-        card: '#151B2B',
-        gold: '#D4AF37',
-        goldSoft: '#F0D875',
-        copy: '#F6F7FB',
-        muted: '#98A2B3',
+        panel: '#101522',
+        card: '#121826',
+        gold: '#C9A84C',
+        goldSoft: '#F1C94F',
+        copy: '#FFFFFF',
+        muted: '#A0AEC0',
         line: 'rgba(255,255,255,0.1)',
       },
       boxShadow: {
         premium: '0 24px 70px rgba(0,0,0,0.38)',
-        gold: '0 14px 34px rgba(212,175,55,0.2)',
+        gold: '0 14px 34px rgba(201,168,76,0.22)',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

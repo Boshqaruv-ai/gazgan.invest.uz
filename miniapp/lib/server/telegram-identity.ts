@@ -71,7 +71,7 @@ export async function upsertTelegramUser(user: NormalizedTelegramUser) {
       },
       { onConflict: 'telegram_id' }
     )
-    .select('telegram_id, first_name, username')
+    .select('telegram_id, first_name, username, investor_level, member_since')
     .single();
 
   if (error) {
