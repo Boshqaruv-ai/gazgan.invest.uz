@@ -16,9 +16,11 @@ const tabs: Array<{ key: TabKey; label: string; icon: React.ReactNode }> = [
   { key: 'notifications', label: 'Bildirishnomalar', icon: <Bell size={18} /> },
 ];
 
+export const dynamic = 'force-dynamic';
+
 export default function InvestorPage() {
   const [activeTab, setActiveTab] = React.useState<TabKey>('overview');
-  const { data: session } = useSession();
+  const { data: session } = useSession() || { data: null };
   const pathname = usePathname();
 
   const getTabFromPath = (pathname: string): TabKey => {
