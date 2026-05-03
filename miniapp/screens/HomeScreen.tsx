@@ -42,7 +42,7 @@ export function HomeScreen() {
   ];
 
   return (
-    <div className="screen-shell px-0">
+    <div className="screen-shell px-0 pt-3">
       <section className="px-3">
         <motion.div
           initial={{ opacity: 0, scale: 0.985 }}
