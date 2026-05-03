@@ -120,7 +120,7 @@ export function HomeScreen() {
               </PremiumButton>
             </div>
           </div>
-        </motion.div>
+        </div>
       </section>
 
       <section className="mt-6 px-5">
