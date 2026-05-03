@@ -15,16 +15,24 @@ export default function LoginPage() {
     setLoading(true);
     setError('');
 
-    const result = await signIn('credentials', {
-      password,
-      redirect: false,
-    });
+    try {
+      const result = await signIn('credentials', {
+        password,
+        redirect: false,
+      });
 
-    if (result?.error) {
-      setError('Noto\'g\'ri parol');
+      if (result?.error) {
+        setError('Noto\'g\'ri parol');
+        setLoading(false);
+      } else if (result?.ok) {
+        router.push('/');
+      } else {
+        setError('Kirish xatosi');
+        setLoading(false);
+      }
+    } catch (err) {
+      setError('Xatolik yuz berdi');
       setLoading(false);
-    } else {
-      router.push('/');
     }
   };
 
