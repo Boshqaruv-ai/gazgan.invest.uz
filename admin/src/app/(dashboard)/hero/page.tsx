@@ -207,6 +207,7 @@ export default function HeroPage() {
         ) : (
           images.map((image) => (
             <div key={image.id} className="relative rounded-xl overflow-hidden border border-white/10 bg-card">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={image.image_url} alt={image.title} className="w-full h-32 object-cover" />
               <div className="p-2">
                 <p className="text-white text-sm font-medium truncate">{image.title}</p>

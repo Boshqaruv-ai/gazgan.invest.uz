@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gazgan Invest Portal"
+  short_description: "Work safely in Gazgan monorepo"
+  default_prompt: "Use $gazgan-invest-portal when changing or reviewing the Gazgan Invest portal codebase."

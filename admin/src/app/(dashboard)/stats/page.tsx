@@ -67,7 +67,7 @@ export default function StatsPage() {
 
       <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-secondary/30 rounded-xl p-4">
-          <h3 className="text-white font-semibold mb-4">Holat bo'yicha</h3>
+          <h3 className="text-white font-semibold mb-4">Holat bo&apos;yicha</h3>
           <div className="space-y-2">
             <div className="flex justify-between">
               <span className="text-gray-400">Ommabop loyihalar</span>

@@ -3,28 +3,72 @@
 import * as React from 'react';
 import { Package } from 'lucide-react';
 
+const PRODUCT_CATEGORIES = [
+  { value: 'marble_slabs', label: 'Marmar plita' },
+  { value: 'granite_slabs', label: 'Granit slab' },
+  { value: 'souvenirs', label: 'Suvenir' },
+  { value: 'tiles', label: 'Kafel' },
+  { value: 'other', label: 'Boshqa' },
+] as const;
+
+type ProductCategory = (typeof PRODUCT_CATEGORIES)[number]['value'];
+
+type ProductFormData = {
+  title: string;
+  category: ProductCategory;
+  price: string | number;
+  currency: string;
+  unit: string;
+  description: string;
+  featured: boolean;
+  active: boolean;
+  sort_order: number;
+  image: string;
+};
+
+type AdminProduct = {
+  id: string;
+  title: string;
+  category: ProductCategory;
+  price: number;
+  currency: string;
+  unit: string;
+  description: string | null;
+  is_featured: boolean;
+  is_active: boolean;
+  sort_order: number;
+  image: string;
+};
+
+const DEFAULT_PRODUCT_FORM: ProductFormData = {
+  title: '',
+  category: 'marble_slabs',
+  price: '',
+  currency: 'USD',
+  unit: 'm2',
+  description: '',
+  featured: false,
+  active: true,
+  sort_order: 100,
+  image: '',
+};
+
 export default function DashboardPage() {
   return <AdminProducts />;
 }
 
 function AdminProducts() {
-  const [products, setProducts] = React.useState<any[]>([]);
+  const [products, setProducts] = React.useState<AdminProduct[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [showForm, setShowForm] = React.useState(false);
-  const [editing, setEditing] = React.useState<any>(null);
+  const [editing, setEditing] = React.useState<AdminProduct | null>(null);
   const [uploading, setUploading] = React.useState(false);
-  const [formData, setFormData] = React.useState<any>({
-    title: '',
-    category: '',
-    price: '',
-    currency: 'USD',
-    unit: 'm2',
-    description: '',
-    featured: false,
-    active: true,
-    sort_order: 0,
-    image: '',
-  });
+  const [formData, setFormData] = React.useState<ProductFormData>(DEFAULT_PRODUCT_FORM);
+
+  const resetForm = () => {
+    setEditing(null);
+    setFormData(DEFAULT_PRODUCT_FORM);
+  };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -40,13 +84,13 @@ function AdminProducts() {
         body: formDataUpload,
       });
       const data = await res.json();
-      
+
       if (data.url) {
-        setFormData({ ...formData, image: data.url });
+        setFormData((current) => ({ ...current, image: data.url }));
       } else if (data.error) {
         alert(data.error);
       }
-    } catch (err) {
+    } catch {
       alert('Rasm yuklashda xatolik');
     } finally {
       setUploading(false);
@@ -79,9 +123,11 @@ function AdminProducts() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const method = editing ? 'PATCH' : 'POST';
-    const body = editing 
-      ? { ...formData, id: editing.id, price: Number(formData.price) || 0 }
-      : { ...formData, price: Number(formData.price) || 0 };
+    const body = {
+      ...formData,
+      id: editing?.id,
+      price: Number(formData.price) || 0,
+    };
 
     try {
       const res = await fetch('/api/admin/products', {
@@ -94,28 +140,16 @@ function AdminProducts() {
         alert(result.error);
       } else {
         setShowForm(false);
-        setEditing(null);
-        setFormData({
-          title: '',
-          category: '',
-          price: '',
-          currency: 'USD',
-          unit: 'm2',
-          description: '',
-          featured: false,
-          active: true,
-          sort_order: 0,
-          image: '',
-        });
+        resetForm();
         fetchProducts();
       }
-    } catch (err) {
+    } catch {
       alert('Xatolik yuz berdi');
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Mahsulotni o\'chirmoqchimisiz?')) return;
+    if (!confirm("Mahsulotni o'chirmoqchimisiz?")) return;
     try {
       const res = await fetch(`/api/admin/products?id=${id}`, { method: 'DELETE' });
       const result = await res.json();
@@ -124,14 +158,25 @@ function AdminProducts() {
       } else {
         fetchProducts();
       }
-    } catch (err) {
+    } catch {
       alert('Xatolik yuz berdi');
     }
   };
 
-  const handleEdit = (product: any) => {
+  const handleEdit = (product: AdminProduct) => {
     setEditing(product);
-    setFormData(product);
+    setFormData({
+      title: product.title ?? '',
+      category: product.category ?? 'marble_slabs',
+      price: product.price ?? '',
+      currency: product.currency ?? 'USD',
+      unit: product.unit ?? 'm2',
+      description: product.description ?? '',
+      featured: Boolean(product.is_featured),
+      active: Boolean(product.is_active),
+      sort_order: product.sort_order ?? 100,
+      image: product.image ?? '',
+    });
     setShowForm(true);
   };
 
@@ -141,118 +186,125 @@ function AdminProducts() {
 
   return (
     <div className="p-4">
-      <div className="flex justify-between items-center mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold text-white">Mahsulotlar</h2>
         <button
           onClick={() => {
+            resetForm();
             setShowForm(true);
-            setEditing(null);
-            setFormData({
-              title: '',
-              category: '',
-price: '',
-              currency: 'USD',
-              unit: 'm2',
-              description: '',
-              featured: false,
-              active: true,
-              sort_order: 0,
-              image: '',
-            });
           }}
-          className="flex items-center gap-2 px-4 py-2 bg-accent text-dark rounded-lg font-semibold"
+          className="flex items-center gap-2 rounded-lg bg-accent px-4 py-2 font-semibold text-dark"
         >
-          <Package size={18} /> Qo‘shish
+          <Package size={18} /> Qo&apos;shish
         </button>
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-secondary/30 rounded-xl p-4 mb-4 space-y-3">
+        <form onSubmit={handleSubmit} className="mb-4 space-y-3 rounded-xl bg-secondary/30 p-4">
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Sarlavha</label>
+            <label className="mb-1 block text-sm text-gray-400">Sarlavha</label>
             <input
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-3 py-2 bg-secondary/50 border border-accent/20 rounded-lg text-white"
+              className="w-full rounded-lg border border-accent/20 bg-secondary/50 px-3 py-2 text-white"
               required
             />
           </div>
+
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Kategoriya</label>
-            <input
-              type="text"
+            <label className="mb-1 block text-sm text-gray-400">Kategoriya</label>
+            <select
               value={formData.category}
-              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              className="w-full px-3 py-2 bg-secondary/50 border border-accent/20 rounded-lg text-white"
-            />
+              onChange={(e) => setFormData({ ...formData, category: e.target.value as ProductCategory })}
+              className="w-full rounded-lg border border-accent/20 bg-secondary/50 px-3 py-2 text-white"
+              required
+            >
+              {PRODUCT_CATEGORIES.map((category) => (
+                <option key={category.value} value={category.value}>
+                  {category.label}
+                </option>
+              ))}
+            </select>
           </div>
+
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label className="block text-sm text-gray-400 mb-1">Narx</label>
+              <label className="mb-1 block text-sm text-gray-400">Narx</label>
               <input
                 type="number"
                 step="0.01"
+                min="0"
                 placeholder="0"
-                value={formData.price as any}
-                onChange={(e) => setFormData({ ...formData, price: e.target.value === '' ? '' : parseFloat(e.target.value) || '' })}
-                className="w-full px-3 py-2 bg-secondary/50 border border-accent/20 rounded-lg text-white"
+                value={formData.price}
+                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                className="w-full rounded-lg border border-accent/20 bg-secondary/50 px-3 py-2 text-white"
+                required
               />
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-1">Valyuta</label>
+              <label className="mb-1 block text-sm text-gray-400">Valyuta</label>
               <select
                 value={formData.currency}
                 onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-                className="w-full px-3 py-2 bg-secondary/50 border border-accent/20 rounded-lg text-white"
+                className="w-full rounded-lg border border-accent/20 bg-secondary/50 px-3 py-2 text-white"
               >
                 <option value="USD">USD</option>
                 <option value="UZS">UZS</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-1">Birligi</label>
+              <label className="mb-1 block text-sm text-gray-400">Birligi</label>
               <select
                 value={formData.unit}
                 onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
-                className="w-full px-3 py-2 bg-secondary/50 border border-accent/20 rounded-lg text-white"
+                className="w-full rounded-lg border border-accent/20 bg-secondary/50 px-3 py-2 text-white"
               >
-                <option value="m2">m²</option>
+                <option value="m2">m2</option>
                 <option value="dona">dona</option>
                 <option value="tonna">tonna</option>
               </select>
             </div>
           </div>
+
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Rasm</label>
+            <label className="mb-1 block text-sm text-gray-400">Rasm</label>
             <div className="flex gap-2">
               <input
+                id="image-upload"
                 type="file"
                 accept="image/*"
                 onChange={handleImageUpload}
                 className="hidden"
-                id="image-upload"
               />
               <label
                 htmlFor="image-upload"
-                className="flex items-center gap-2 px-4 py-2 bg-secondary/50 text-white rounded-lg cursor-pointer hover:bg-secondary/70"
+                className="flex cursor-pointer items-center gap-2 rounded-lg bg-secondary/50 px-4 py-2 text-white hover:bg-secondary/70"
               >
                 {uploading ? 'Yuklanmoqda...' : 'Rasm tanlash'}
               </label>
-              {formData.image && (
-                <span className="text-green-400 text-sm self-center">Yuklangan</span>
-              )}
+              {formData.image && <span className="self-center text-sm text-green-400">Yuklangan</span>}
             </div>
-            {formData.image && (
-              <input
-                type="text"
-                value={formData.image}
-                onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                placeholder="Yoki URL ni qo'lda kiriting"
-                className="w-full mt-2 px-3 py-2 bg-secondary/50 border border-accent/20 rounded-lg text-white text-sm"
-              />
-            )}
+            <input
+              type="url"
+              value={formData.image}
+              onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+              placeholder="Yoki URL ni qo'lda kiriting"
+              className="mt-2 w-full rounded-lg border border-accent/20 bg-secondary/50 px-3 py-2 text-sm text-white"
+              required
+            />
           </div>
+
+          <div>
+            <label className="mb-1 block text-sm text-gray-400">Tavsif</label>
+            <textarea
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              className="w-full rounded-lg border border-accent/20 bg-secondary/50 px-3 py-2 text-white"
+              rows={3}
+            />
+          </div>
+
           <div className="flex gap-4">
             <label className="flex items-center gap-2 text-white">
               <input
@@ -271,17 +323,18 @@ price: '',
               Faol
             </label>
           </div>
+
           <div className="flex gap-2">
-            <button type="submit" className="px-4 py-2 bg-accent text-dark rounded-lg font-semibold">
-              {editing ? 'Saqlash' : "Qo‘shish"}
+            <button type="submit" className="rounded-lg bg-accent px-4 py-2 font-semibold text-dark">
+              {editing ? 'Saqlash' : "Qo'shish"}
             </button>
             <button
               type="button"
               onClick={() => {
                 setShowForm(false);
-                setEditing(null);
+                resetForm();
               }}
-              className="px-4 py-2 bg-secondary/50 text-white rounded-lg"
+              className="rounded-lg bg-secondary/50 px-4 py-2 text-white"
             >
               Bekor qilish
             </button>
@@ -291,10 +344,10 @@ price: '',
 
       <div className="space-y-2">
         {products.length === 0 ? (
-          <p className="text-gray-400 text-center p-4">Mahsulotlar yoq</p>
+          <p className="p-4 text-center text-gray-400">Mahsulotlar yo&apos;q</p>
         ) : (
           products.map((product) => (
-            <div key={product.id} className="flex items-center gap-4 bg-secondary/20 rounded-xl p-3">
+            <div key={product.id} className="flex items-center gap-4 rounded-xl bg-secondary/20 p-3">
               <div className="flex-1">
                 <h3 className="font-semibold text-white">{product.title}</h3>
                 <p className="text-sm text-gray-400">
@@ -302,10 +355,10 @@ price: '',
                 </p>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => handleEdit(product)} className="p-2 text-accent hover:bg-accent/20 rounded-lg">
+                <button onClick={() => handleEdit(product)} className="rounded-lg p-2 text-accent hover:bg-accent/20">
                   Tahrirlash
                 </button>
-                <button onClick={() => handleDelete(product.id)} className="p-2 text-red-400 hover:bg-red-400/20 rounded-lg">
+                <button onClick={() => handleDelete(product.id)} className="rounded-lg p-2 text-red-400 hover:bg-red-400/20">
                   O&apos;chirish
                 </button>
               </div>
@@ -313,15 +366,6 @@ price: '',
           ))
         )}
       </div>
-    </div>
-  );
-}
-
-function AdminProjects() {
-  return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold text-white mb-4">Loyihalar</h2>
-      <p className="text-gray-400">Loyiha media boshqaruvi tayyorlanmoqda...</p>
     </div>
   );
 }
