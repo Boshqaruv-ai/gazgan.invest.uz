@@ -7,12 +7,12 @@ import { usePathname } from 'next/navigation';
 
 type TabKey = 'products' | 'projects' | 'notifications' | 'stats' | 'hero';
 
-const tabs: Array<{ key: TabKey; label: string; icon: React.ReactNode }> = [
-  { key: 'stats', label: 'Statistika', icon: <BarChart3 size={18} /> },
-  { key: 'products', label: 'Mahsulotlar', icon: <Package size={18} /> },
-  { key: 'projects', label: 'Loyihalar', icon: <Folder size={18} /> },
-  { key: 'hero', label: 'Hero rasmlar', icon: <ImageIcon size={18} /> },
-  { key: 'notifications', label: 'Bildirishnomalar', icon: <Bell size={18} /> },
+const tabs: Array<{ key: TabKey; href: string; label: string; icon: React.ReactNode }> = [
+  { key: 'stats', href: '/stats', label: 'Statistika', icon: <BarChart3 size={18} /> },
+  { key: 'products', href: '/', label: 'Mahsulotlar', icon: <Package size={18} /> },
+  { key: 'projects', href: '/projects', label: 'Loyihalar', icon: <Folder size={18} /> },
+  { key: 'hero', href: '/hero', label: 'Hero rasmlar', icon: <ImageIcon size={18} /> },
+  { key: 'notifications', href: '/notifications', label: 'Bildirishnomalar', icon: <Bell size={18} /> },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -39,9 +39,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {tabs.map((tab) => (
             <Link
               key={tab.key}
-              href={`/${tab.key}`}
+              href={tab.href}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm whitespace-nowrap transition-colors ${
-                pathname === `/${tab.key}`
+                pathname === tab.href
                   ? 'bg-accent text-dark font-semibold'
                   : 'bg-secondary/30 text-gray-400 hover:text-white'
               }`}
