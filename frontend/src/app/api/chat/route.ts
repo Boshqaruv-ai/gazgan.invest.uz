@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic';
 
 const MAX_MESSAGE_LENGTH = 1200;
 const MAX_HISTORY_ITEMS = 6;
-const GEMINI_MODEL = 'gemini-2.0-flash';
+const GEMINI_MODEL = 'gemini-1.5-flash';
 
 const fallbackResponses: Record<string, string> = {
   marmar: "Marmar - tabiiy bezak toshi. G'ozg'on hududi oq, kulrang va pushti marmar yo'nalishlari bilan tanilgan. Mahsulotlar sahifasida asosiy turlar va narx birliklarini ko'rishingiz mumkin.",
