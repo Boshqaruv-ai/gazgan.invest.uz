@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 import { LogOut, Folder, FileText, MessageSquare, Bell, BarChart3 } from 'lucide-react';
 
@@ -18,20 +18,16 @@ const tabs: Array<{ key: TabKey; label: string; icon: React.ReactNode }> = [
 
 export const dynamic = 'force-dynamic';
 
+const getTabFromPath = (pathname: string): TabKey => {
+  const tab = pathname.split('/')[2] as TabKey;
+  if (tabs.find((t) => t.key === tab)) return tab;
+  return 'overview';
+};
+
 export default function InvestorPage() {
-  const [activeTab, setActiveTab] = React.useState<TabKey>('overview');
   const { data: session } = useSession() || { data: null };
   const pathname = usePathname();
-
-  const getTabFromPath = (pathname: string): TabKey => {
-    const tab = pathname.split('/')[2] as TabKey;
-    if (tabs.find((t) => t.key === tab)) return tab;
-    return 'overview';
-  };
-
-  React.useEffect(() => {
-    setActiveTab(getTabFromPath(pathname));
-  }, [pathname]);
+  const activeTab = getTabFromPath(pathname);
 
   return (
     <div className="min-h-screen pt-24 pb-20 hero-bg">

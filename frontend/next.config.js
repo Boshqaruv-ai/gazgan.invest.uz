@@ -1,3 +1,19 @@
+const fallbackSupabaseHostname = 'ynkzcezrohjwirapxkeq.supabase.co';
+
+function getSupabaseHostname() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
+  if (!supabaseUrl) {
+    return fallbackSupabaseHostname;
+  }
+
+  try {
+    return new URL(supabaseUrl).hostname;
+  } catch {
+    return fallbackSupabaseHostname;
+  }
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -8,7 +24,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'ynkzcezrohjwirapxkeq.supabase.co',
+        hostname: getSupabaseHostname(),
       },
     ],
   },

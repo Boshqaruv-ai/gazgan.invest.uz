@@ -72,9 +72,9 @@ export default function InvestorLoginPage() {
 
           <div className="text-center">
             <p className="text-gray-400 text-sm">
-              Hisobingiz yo'qmi?{' '}
+              Hisobingiz yo&apos;qmi?{' '}
               <Link href="/investor/register" className="text-accent hover:underline">
-                Ro'yxatdan o'ting
+                Ro&apos;yxatdan o&apos;ting
               </Link>
             </p>
           </div>

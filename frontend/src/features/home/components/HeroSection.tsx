@@ -6,7 +6,7 @@ import { ArrowRight, Building2, Factory, MapPin, ShieldCheck } from 'lucide-reac
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 
-const heroImage = 'https://images.unsplash.com/photo-1573156667488-5c0cec674762?auto=format&fit=crop&w=2200&q=85';
+const fallbackHeroImage = 'https://images.unsplash.com/photo-1573156667488-5c0cec674762?auto=format&fit=crop&w=2200&q=85';
 
 const trustBadges = [
   { icon: ShieldCheck, label: '20+ yil tajriba' },
@@ -15,12 +15,20 @@ const trustBadges = [
   { icon: Building2, label: 'Navoiy logistika markazi' },
 ];
 
-export function HeroSection() {
+interface HeroSectionProps {
+  heroImageUrl?: string | null;
+  heroImageAlt?: string | null;
+}
+
+export function HeroSection({ heroImageUrl, heroImageAlt }: HeroSectionProps) {
+  const imageSrc = heroImageUrl || fallbackHeroImage;
+  const imageAlt = heroImageAlt || 'Gozgon marble and granite quarry';
+
   return (
     <section className="relative min-h-[92vh] overflow-hidden pt-24">
       <Image
-        src={heroImage}
-        alt="Gozgon marble and granite quarry"
+        src={imageSrc}
+        alt={imageAlt}
         fill
         priority
         sizes="100vw"

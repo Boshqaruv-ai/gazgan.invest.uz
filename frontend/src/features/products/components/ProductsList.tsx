@@ -108,7 +108,7 @@ export function ProductsList() {
         </div>
 
         <select value={sort} onChange={(event) => setSort(event.target.value)} className="input-field sm:w-64">
-          <option value="name">Nom bo'yicha</option>
+          <option value="name">Nom bo&apos;yicha</option>
           <option value="price-asc">Narx: pastdan yuqoriga</option>
           <option value="price-desc">Narx: yuqoridan pastga</option>
         </select>
