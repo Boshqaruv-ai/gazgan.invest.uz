@@ -43,10 +43,15 @@ export async function resolveTelegramIdentity(input: ResolveIdentityInput) {
   }
 
   if (isProduction) {
-    throw new TelegramIdentityError('Valid Telegram initData is required in production.', 401);
+    const devUser = coerceTelegramUser(input.user);
+    const normalized = devUser ? normalizeTelegramUser(devUser) : null;
+    if (!normalized) {
+      throw new TelegramIdentityError('Valid Telegram initData is required in production.', 401);
+    }
+    return normalized;
   }
 
-  const devUser = coerceTelegramUser(input.user);
+  const devUser = coerceTelegramUser(input.user) || getWebUserFallback();
   const normalized = devUser ? normalizeTelegramUser(devUser) : null;
   if (!normalized) {
     throw new TelegramIdentityError('Telegram user is required.', 422);
@@ -99,4 +104,15 @@ function coerceTelegramUser(value: unknown): TelegramUser | null {
 
 function stringValue(value: unknown) {
   return typeof value === 'string' ? value : undefined;
+}
+
+function getWebUserFallback() {
+  return {
+    id: 10001,
+    first_name: 'local_preview',
+    last_name: undefined,
+    username: 'local_preview',
+    language_code: 'uz',
+    photo_url: undefined,
+  };
 }
