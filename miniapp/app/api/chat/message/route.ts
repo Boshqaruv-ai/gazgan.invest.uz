@@ -28,9 +28,24 @@ export async function POST(request: Request) {
 
     await upsertTelegramUser(identity);
 
-    const projects = await getProjectsFromDb();
-    const answer = getAIResponse(message, projects);
     const supabase = getSupabaseAdmin();
+
+    const { data: historyData } = await supabase
+      .from('chat_messages')
+      .select('role, message')
+      .eq('telegram_id', identity.telegram_id)
+      .order('created_at', { ascending: true })
+      .limit(20);
+
+    const history = (historyData || [])
+      .filter((m) => m.role === 'user' || m.role === 'assistant')
+      .map((m) => ({
+        role: m.role as 'user' | 'assistant',
+        content: m.message,
+      }));
+
+    const projects = await getProjectsFromDb();
+    const answer = await getAIResponse(message, projects, history);
 
     const { error } = await supabase
       .from('chat_messages')

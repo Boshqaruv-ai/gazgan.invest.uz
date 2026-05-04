@@ -9,6 +9,7 @@ import { useTelegramWebApp } from '@/hooks/useTelegramWebApp';
 import { triggerTelegramHaptic } from '@/lib/telegram';
 import { cn } from '@/lib/utils';
 import { sendChatMessage } from '@/services/chat';
+import { getWelcomeMessage } from '@/lib/ai-chat';
 
 interface ChatMessage {
   id: number;
@@ -25,8 +26,8 @@ export function ChatScreen() {
     {
       id: 1,
       role: 'assistant',
-      text: "Assalomu alaykum. Sizga mos loyiha topib beraymi? Investitsiya summangiz yoki qiziqqan yo'nalishni yozing.",
-      time: '14:30',
+      text: getWelcomeMessage(),
+      time: currentTime(),
     },
   ]);
   const [input, setInput] = useState('');
