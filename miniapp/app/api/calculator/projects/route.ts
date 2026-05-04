@@ -4,6 +4,12 @@ import { getProjectsFromDb } from '@/lib/server/projects';
 export async function GET() {
   try {
     const projects = await getProjectsFromDb();
+    if (projects.length === 0) {
+      return NextResponse.json({
+        options: [],
+        message: 'ROI uchun loyihalar hali tayyorlanmagan.',
+      });
+    }
 
     return NextResponse.json({
       options: projects.map((project) => ({
@@ -17,7 +23,28 @@ export async function GET() {
       })),
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Calculator project options could not be loaded.';
-    return NextResponse.json({ error: message }, { status: 500 });
+    const message = error instanceof Error ? error.message : '';
+
+    if (isMissingProjectsSchemaError(message)) {
+      return NextResponse.json({
+        options: [],
+        message: 'ROI uchun loyihalar hali tayyorlanmagan.',
+      });
+    }
+
+    console.error('Calculator projects API error:', error);
+    return NextResponse.json(
+      { error: message || 'Kalkulyator loyihalari yuklanmadi.' },
+      { status: 500 }
+    );
   }
+}
+
+function isMissingProjectsSchemaError(message: string) {
+  return (
+    message.includes("Could not find the table 'public.projects'") ||
+    message.includes('public.projects') ||
+    message.includes('schema cache') ||
+    message.includes('does not exist')
+  );
 }

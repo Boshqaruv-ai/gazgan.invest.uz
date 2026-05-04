@@ -66,6 +66,14 @@ export function CalculatorScreen() {
         <section>
           <ErrorState message={error} onRetry={() => void loadOptions()} />
         </section>
+      ) : options.length === 0 ? (
+        <section>
+          <ErrorState
+            title="Loyihalar tayyor emas"
+            message="ROI uchun loyihalar hali tayyorlanmagan. Supabase bazasida projects jadvali va loyiha ma'lumotlari qo'shilgandan keyin kalkulyator ishlaydi."
+            onRetry={() => void loadOptions()}
+          />
+        </section>
       ) : selected ? (
         <>
           <motion.section

@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Bot, Send } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { LeadModal } from '@/components/leads/LeadModal';
 import { PremiumButton } from '@/components/ui/PremiumButton';
 import { useTelegramWebApp } from '@/hooks/useTelegramWebApp';
@@ -86,20 +86,8 @@ export function ChatScreen() {
   }
 
   return (
-    <div className="screen-shell flex min-h-full flex-col pb-[calc(154px+env(safe-area-inset-bottom,0px))]">
-      <header className="flex items-center gap-3">
-        <div className="relative flex h-[58px] w-[58px] shrink-0 items-center justify-center rounded-full bg-[radial-gradient(circle_at_30%_20%,#FFF0A3,#C9A84C_38%,#2B210A_76%)] shadow-[0_0_26px_rgba(201,168,76,0.35)]">
-          <div className="flex h-[39px] w-[39px] items-center justify-center rounded-full bg-[#0B0F1A]">
-            <Bot className="h-6 w-6 text-gold" />
-          </div>
-        </div>
-        <div>
-          <h1 className="text-[18px] font-extrabold text-copy">AI Konsultant</h1>
-          <p className="mt-0.5 text-[12px] text-muted">24/7 sizga yordam beraman</p>
-        </div>
-      </header>
-
-      <section className="mt-5 flex-1 space-y-3">
+    <div className="screen-shell flex min-h-full flex-col pb-0">
+      <section className="flex-1 space-y-3 pb-4">
         {messages.map((message) => (
           <motion.div
             key={message.id}
@@ -130,7 +118,7 @@ export function ChatScreen() {
         <div ref={endRef} />
       </section>
 
-      <div className="fixed bottom-[calc(78px+env(safe-area-inset-bottom,0px))] left-1/2 z-40 w-full max-w-[390px] -translate-x-1/2 border-t border-white/10 bg-[#0B0F1A]/96 px-3 pb-3 pt-3 backdrop-blur-xl">
+      <div className="sticky bottom-0 z-40 -mx-4 mt-4 border-t border-white/10 bg-[#0B0F1A]/96 px-3 pb-3 pt-3 backdrop-blur-xl min-[400px]:-mx-5">
         <form onSubmit={submit} className="flex items-center gap-2 rounded-full border border-white/10 bg-card px-3 py-2">
           <input
             value={input}
@@ -148,7 +136,7 @@ export function ChatScreen() {
             <Send className="h-4 w-4" />
           </button>
         </form>
-        <div className="miniapp-scrollbar mt-2 flex gap-2 overflow-x-auto">
+        <div className="miniapp-scrollbar mt-2 flex min-h-[38px] gap-2 overflow-x-auto">
           {suggestions.map((suggestion) => (
             <button
               key={suggestion}
