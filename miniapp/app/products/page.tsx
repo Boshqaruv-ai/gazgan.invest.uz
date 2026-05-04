@@ -27,7 +27,7 @@ export default function ProductsPage() {
           <div className="rounded-[18px] border border-white/10 bg-card p-4">
             <div className="flex items-center gap-3">
               <Boxes className="h-5 w-5 text-gold" />
-              <p className="text-[15px] font-black text-copy">Mahsulotlar yo'q</p>
+              <p className="text-[15px] font-black text-copy">Mahsulotlar yo&apos;q</p>
             </div>
           </div>
         )}
