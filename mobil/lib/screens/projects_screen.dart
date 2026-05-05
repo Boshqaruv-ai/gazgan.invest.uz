@@ -33,9 +33,9 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
   @override
   Widget build(BuildContext context) {
     return ScreenFrame(
-      title: ‘Loyihalar’,
+      title: 'Loyihalar',
       subtitle:
-          "ROI, qoplanish muddati va yig’ilgan investitsiya bo’yicha solishtiring.",
+          "ROI, qoplanish muddati va yig'ilgan investitsiya bo'yicha solishtiring.",
       child: RefreshIndicator(
         onRefresh: () async {
           await _reloadAsync();
@@ -72,7 +72,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                 child: Row(
                   children: [
                     _FilterChip(
-                      label: ‘Hammasi’,
+                      label: 'Hammasi',
                       selected: selectedStatus == null,
                       onTap: () => setState(() => selectedStatus = null),
                     ),
@@ -88,15 +88,15 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
               const SizedBox(height: 16),
               if (projects.isEmpty)
                 const EmptyStateView(
-                  title: ‘Loyiha topilmadi’,
+                  title: 'Loyiha topilmadi',
                   message:
-                      ‘Tanlangan filter bo\’yicha faol investitsiya loyihasi yo\’q.’,
+                      'Tanlangan filter bo\'yicha faol investitsiya loyihasi yo\'q.',
                 )
               else
                 for (final project in projects)
                   ProjectCard(
                     project: project,
-                    onTap: () => context.go(‘/projects/${project.id}’),
+                    onTap: () => context.go('/projects/${project.id}'),
                   ),
             ],
           );
