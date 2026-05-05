@@ -73,8 +73,8 @@ function clean(value: unknown, maxLength: number) {
 
 async function triggerMockTelegramBotWebhook(lead: {
   id: string;
-  telegram_id: string;
-  project_id: string;
+  telegram_id: string | null;
+  project_id: string | null;
   created_at: string;
 }) {
   console.info('Mock Telegram bot webhook', lead);
