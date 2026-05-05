@@ -53,6 +53,11 @@ export async function POST(request: Request) {
   const roi = Math.max(0, Number(body.roi) || 0);
   const payback = Math.max(1, Number(body.payback) || 1);
   const amount = Math.max(0, Number(body.amount) || 0);
+  const investmentRequired = Math.max(0, Number(body.investment_required) || amount);
+  const investmentRaised = Math.max(0, Number(body.investment_raised) || 0);
+  const paybackYears = Number(body.payback_years) || payback;
+  const expectedReturn = Math.max(0, Number(body.expected_return) || roi);
+  const imgUrl = (body.image_url || body.image || '').trim();
 
   // Generate a unique ID from title
   const id = title
@@ -71,7 +76,7 @@ export async function POST(request: Request) {
       roi,
       payback,
       amount,
-      image: (body.image_url || body.image || '').trim() || null,
+      image: imgUrl || null,
       highlight: Boolean(body.highlight ?? body.is_featured ?? false),
       description: (body.description || '').trim(),
       location: (body.location || '').trim(),
@@ -80,6 +85,17 @@ export async function POST(request: Request) {
       roi_breakdown: body.roi_breakdown || [],
       sort_order: Number(body.sort_order) || 100,
       is_active: body.is_active !== undefined ? Boolean(body.is_active) : true,
+      // Extended columns from migration 20260503163211
+      status: (body.status || 'ACTIVE').trim(),
+      investment_required: investmentRequired,
+      investment_raised: investmentRaised,
+      expected_return: expectedReturn,
+      payback_years: paybackYears,
+      project_type: (body.project_type || 'other').trim(),
+      trust_level: (body.trust_level || 'pending_verification').trim(),
+      images: imgUrl ? [imgUrl] : [],
+      gallery_images: body.gallery_images || [],
+      investors_count: Math.max(0, Number(body.investors_count) || 0),
     }])
     .select()
     .single();
