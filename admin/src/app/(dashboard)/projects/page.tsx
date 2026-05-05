@@ -4,6 +4,9 @@ import * as React from 'react';
 import { useSession } from 'next-auth/react';
 import { Folder, Plus, Trash2, Edit, Upload } from 'lucide-react';
 
+const CATEGORIES = ['Marmar', 'Granit', 'Boshqa'] as const;
+const RISK_LEVELS = ['Low', 'Medium', 'High'] as const;
+
 export default function ProjectsPage() {
   const { data: session } = useSession();
   const [projects, setProjects] = React.useState<any[]>([]);
@@ -13,16 +16,16 @@ export default function ProjectsPage() {
   const [uploading, setUploading] = React.useState(false);
   const [formData, setFormData] = React.useState<any>({
     title: '',
-    category: '',
-    status: 'ACTIVE',
+    category: 'Marmar',
     roi: '',
-    payback_years: '',
+    payback: '',
     amount: '',
-    investment_required: '',
-    investment_raised: 0,
     location: '',
     description: '',
     image_url: '',
+    risk_level: 'Medium',
+    highlight: false,
+    is_active: true,
   });
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,16 +79,16 @@ export default function ProjectsPage() {
     setEditing(null);
     setFormData({
       title: '',
-      category: '',
-      status: 'ACTIVE',
+      category: 'Marmar',
       roi: '',
-      payback_years: '',
+      payback: '',
       amount: '',
-      investment_required: '',
-      investment_raised: 0,
       location: '',
       description: '',
       image_url: '',
+      risk_level: 'Medium',
+      highlight: false,
+      is_active: true,
     });
   };
 
@@ -96,9 +99,8 @@ export default function ProjectsPage() {
       ...formData,
       id: editing?.id,
       roi: Number(formData.roi) || 0,
-      payback_years: Number(formData.payback_years) || 0,
+      payback: Number(formData.payback) || 1,
       amount: Number(formData.amount) || 0,
-      investment_required: Number(formData.investment_required) || 0,
     };
 
     try {
@@ -107,13 +109,17 @@ export default function ProjectsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
+      const result = await res.json();
       if (res.ok) {
         setShowForm(false);
         resetForm();
         fetchProjects();
+      } else {
+        alert('Xatolik: ' + (result.error || 'Noma\'lum xatolik'));
       }
     } catch (err) {
       console.error(err);
+      alert('Tarmoq xatoligi yuz berdi');
     }
   };
 
@@ -131,16 +137,16 @@ export default function ProjectsPage() {
     setEditing(project);
     setFormData({
       title: project.title || '',
-      category: project.category || '',
-      status: project.status || 'ACTIVE',
+      category: project.category || 'Marmar',
       roi: project.roi ?? '',
-      payback_years: project.payback_years ?? '',
+      payback: project.payback ?? '',
       amount: project.amount ?? '',
-      investment_required: project.investment_required ?? '',
-      investment_raised: project.investment_raised ?? 0,
       location: project.location || '',
       description: project.description || '',
-      image_url: project.image_url || '',
+      image_url: project.image || '',
+      risk_level: project.risk_level || 'Medium',
+      highlight: Boolean(project.highlight),
+      is_active: project.is_active !== undefined ? Boolean(project.is_active) : true,
     });
     setShowForm(true);
   };
@@ -179,69 +185,64 @@ export default function ProjectsPage() {
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-sm text-gray-400 mb-1">Kategoriya</label>
-              <input
-                type="text"
+              <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 className="w-full px-3 py-2 bg-secondary/50 border border-accent/20 rounded-lg text-white"
-              />
+              >
+                {CATEGORIES.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-1">Holat</label>
+              <label className="block text-sm text-gray-400 mb-1">Risk darajasi</label>
               <select
-                value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                value={formData.risk_level}
+                onChange={(e) => setFormData({ ...formData, risk_level: e.target.value })}
                 className="w-full px-3 py-2 bg-secondary/50 border border-accent/20 rounded-lg text-white"
               >
-                <option value="HOT">Ommabop</option>
-                <option value="NEW">Yangi</option>
-                <option value="ACTIVE">Faol</option>
-                <option value="FUNDED">Moliyalashtirilgan</option>
+                {RISK_LEVELS.map((r) => (
+                  <option key={r} value={r}>
+                    {r === 'Low' ? 'Past' : r === 'Medium' ? "O'rta" : 'Yuqori'}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-3 gap-3">
             <div>
               <label className="block text-sm text-gray-400 mb-1">ROI (%)</label>
               <input
                 type="number"
-                step="0.01"
+                min="0"
+                step="1"
                 placeholder="0"
-                value={formData.roi as any}
-                onChange={(e) => setFormData({ ...formData, roi: e.target.value === '' ? '' : parseFloat(e.target.value) || '' })}
+                value={formData.roi}
+                onChange={(e) => setFormData({ ...formData, roi: e.target.value })}
                 className="w-full px-3 py-2 bg-secondary/50 border border-accent/20 rounded-lg text-white"
               />
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-1">Qaytarish yili</label>
+              <label className="block text-sm text-gray-400 mb-1">Qaytarish (yil)</label>
               <input
                 type="number"
-                step="0.01"
-                placeholder="0"
-                value={formData.payback_years as any}
-                onChange={(e) => setFormData({ ...formData, payback_years: e.target.value === '' ? '' : parseFloat(e.target.value) || '' })}
-                className="w-full px-3 py-2 bg-secondary/50 border border-accent/20 rounded-lg text-white"
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-sm text-gray-400 mb-1">Kerakli investitsiya ($)</label>
-              <input
-                type="number"
-                placeholder="0"
-                value={formData.investment_required as any}
-                onChange={(e) => setFormData({ ...formData, investment_required: e.target.value === '' ? '' : Number(e.target.value) || '' })}
+                min="1"
+                step="1"
+                placeholder="1"
+                value={formData.payback}
+                onChange={(e) => setFormData({ ...formData, payback: e.target.value })}
                 className="w-full px-3 py-2 bg-secondary/50 border border-accent/20 rounded-lg text-white"
               />
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-1">Jami miqdor ($)</label>
+              <label className="block text-sm text-gray-400 mb-1">Miqdor ($)</label>
               <input
                 type="number"
+                min="0"
                 placeholder="0"
-                value={formData.amount as any}
-                onChange={(e) => setFormData({ ...formData, amount: e.target.value === '' ? '' : Number(e.target.value) || '' })}
+                value={formData.amount}
+                onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
                 className="w-full px-3 py-2 bg-secondary/50 border border-accent/20 rounded-lg text-white"
               />
             </div>
@@ -293,6 +294,24 @@ export default function ProjectsPage() {
               className="w-full px-3 py-2 bg-secondary/50 border border-accent/20 rounded-lg text-white text-sm"
             />
           </div>
+          <div className="flex gap-4">
+            <label className="flex items-center gap-2 text-white">
+              <input
+                type="checkbox"
+                checked={formData.highlight}
+                onChange={(e) => setFormData({ ...formData, highlight: e.target.checked })}
+              />
+              Tanlangan (highlight)
+            </label>
+            <label className="flex items-center gap-2 text-white">
+              <input
+                type="checkbox"
+                checked={formData.is_active}
+                onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
+              />
+              Faol
+            </label>
+          </div>
           <div className="flex gap-2">
             <button type="submit" className="px-4 py-2 bg-accent text-dark rounded-lg font-semibold">
               {editing ? 'Saqlash' : 'Qo\'shish'}
@@ -318,9 +337,17 @@ export default function ProjectsPage() {
           projects.map((project) => (
             <div key={project.id} className="flex items-center gap-4 bg-secondary/20 rounded-xl p-3">
               <div className="flex-1">
-                <h3 className="font-semibold text-white">{project.title}</h3>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-semibold text-white">{project.title}</h3>
+                  {project.highlight && (
+                    <span className="text-xs bg-accent/20 text-accent px-2 py-0.5 rounded-full">Tanlangan</span>
+                  )}
+                  {!project.is_active && (
+                    <span className="text-xs bg-red-400/20 text-red-400 px-2 py-0.5 rounded-full">Nofaol</span>
+                  )}
+                </div>
                 <p className="text-sm text-gray-400">
-                  {project.status === 'HOT' ? 'Ommabop' : project.status === 'NEW' ? 'Yangi' : project.status === 'ACTIVE' ? 'Faol' : 'Moliyalashtirilgan'} • {project.roi}% ROI • ${project.investment_required?.toLocaleString()}
+                  {project.category} &bull; {project.roi}% ROI &bull; {project.payback} yil &bull; ${(project.amount || 0).toLocaleString()}
                 </p>
               </div>
               <div className="flex gap-2">
