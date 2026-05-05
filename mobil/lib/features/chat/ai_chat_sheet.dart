@@ -99,9 +99,14 @@ class _AiChatSheetState extends State<_AiChatSheet> {
       _scrollToBottom();
     } catch (e) {
       if (!mounted) return;
+      final errorMsg = e is SocketException
+          ? "Tarmoq xatoligi. Internet aloqasini tekshiring."
+          : e is HttpException
+            ? "Server javob bermadi. Keyinroq urinib ko'ring."
+            : "Xatolik: ${e.toString().length > 80 ? 'Server javob bermadi' : e.toString()}";
       setState(() {
         _messages.add(_ChatMessage(
-          text: "Kechirasiz, hozir javob olishda xatolik yuz berdi.",
+          text: errorMsg,
           isUser: false,
         ));
         _loading = false;

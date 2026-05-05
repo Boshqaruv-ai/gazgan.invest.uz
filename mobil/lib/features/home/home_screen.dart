@@ -233,20 +233,25 @@ class _FloatingAiButton extends StatelessWidget {
           children: [
             const Center(
               child: Icon(
-                Icons.chat_bubble_rounded,
+                Icons.smart_toy_rounded,
                 color: GazganColors.graphite,
                 size: 30,
               ),
             ),
             Positioned(
-              right: 8,
-              top: 10,
+              right: 6,
+              top: 8,
               child: Container(
-                width: 12,
-                height: 12,
+                width: 14,
+                height: 14,
                 decoration: const BoxDecoration(
                   color: GazganColors.success,
                   shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.bolt_rounded,
+                  color: GazganColors.graphite,
+                  size: 8,
                 ),
               ),
             ),
