@@ -16,19 +16,40 @@
 ```
 gazgan.invest.uz/
 ├── frontend/              # Asosiy veb-portal (Next.js 16)
-│   ├── src/app/           # Sahifalar (App Router)
+│   ├── src/app/           # Sahifalar (App Router) + /api/chat endpoint
 │   ├── src/components/    # UI komponentlar
 │   ├── src/features/      # Business feature modullar
 │   ├── src/lib/           # Utils va data
-│   └── src/types/         # TS types
+│   ├── src/types/         # TS types
+│   └── .env.local         # GROQ_API_KEY, SUPABASE keys
+├── admin/                 # Admin Panel (Next.js 16)
+│   ├── src/app/           # Dashboard, Products, Projects, Stats, etc.
+│   ├── src/app/api/admin/ # Admin API (products, projects, stats, upload, hero, notifications)
+│   ├── src/lib/           # auth.ts, supabase client/server
+│   └── .env.local         # SUPABASE_SERVICE_ROLE_KEY, NEXTAUTH_SECRET
 ├── miniapp/               # Telegram Mini App (Next.js 16)
-│   ├── app/               # Sahifalar (App Router)
+│   ├── app/               # Sahifalar (App Router) + /api/leads endpoint
 │   ├── screens/           # Screen komponentlar (Tab 1: HomeScreen, etc.)
 │   ├── components/        # UI va layout komponentlar
 │   ├── hooks/             # Custom React hooks
 │   ├── services/          # API service funksiyalar
 │   ├── lib/               # Utils, Telegram SDK, Supabase
 │   └── supabase/migrations/ # SQL migratsiyalar
+├── mobil/                 # Flutter Mobile App (Flutter 3.41.9, Dart 3.11.5)
+│   ├── lib/               # Asosiy Dart kodi
+│   │   ├── main.dart      # Entry point, SupabaseBootstrap
+│   │   ├── app/           # App theme (GazganColors), router (go_router)
+│   │   ├── core/          # Supabase config
+│   │   ├── features/      # home (HomeScreen), chat (AiChatSheet), leads (LeadFormSheet)
+│   │   ├── models/        # Project, FeaturedProduct data modellari
+│   │   ├── repositories/  # Supabase data fetching (ProjectsRepository, FeaturedProductsRepository)
+│   │   ├── screens/       # products, projects, product_detail, project_detail, calculator, profile
+│   │   └── widgets/       # ProductCard, ProjectCard, AdaptiveImage, StateViews
+│   ├── android/           # Android build config
+│   ├── pubspec.yaml       # Flutter dependencies
+│   └── build/app/outputs/flutter-apk/  # APK build output
+├── apk_builds/            # Tayyor APK fayllar saqlanadi
+│   └── Gazgan Invest.apk  # Oxirgi build (nom format: "Gazgan Invest.apk")
 ├── backend/               # Python FastAPI
 │   ├── app/main.py        # FastAPI entry point
 │   ├── app/models.py      # SQLAlchemy ORM modellar
@@ -36,6 +57,7 @@ gazgan.invest.uz/
 │   ├── app/routers/       # API endpoint routerlari
 │   ├── app/database.py    # DB engine & session
 │   └── app/config.py      # Settings (.env dan)
+├── skrinfoto/             # Skrinshotlar saqlanadi
 └── docs/                  # Qo'shimcha hujjatlar
 ```
 
@@ -66,7 +88,73 @@ gazgan.invest.uz/
 - **HTTP:** Axios 1.7.9 (agar kerak bo'lsa)
 - **Telegram SDK:** `https://telegram.org/js/telegram-web-app.js` (Script orqali yuklanadi)
 
-### 3.3. Backend API (`backend/`)
+### 3.4. Flutter Mobile App (`mobil/`)
+
+- **Flutter:** 3.41.9
+- **Dart:** 3.11.5
+- **State Management:** StatefulWidget + FutureBuilder (oddiy pattern)
+- **Routing:** `go_router` (barcha sahifalar markaziy router da)
+- **HTTP:** `dart:io` HttpClient (AI chat uchun)
+- **Database:** Supabase orqali (`supabase_flutter` package)
+- **Build:** `flutter build apk --release --dart-define SUPABASE_URL=... --dart-define SUPABASE_PUBLISHABLE_KEY=...`
+
+**APK Build Komandasi:**
+```bash
+cd mobil
+flutter build apk --release \
+  --dart-define "SUPABASE_URL=https://ynkzcezrohjwirapxkeq.supabase.co" \
+  --dart-define "SUPABASE_PUBLISHABLE_KEY=eyJhbGciOi..."
+```
+
+**APK Saqlash:** Build qilingan APK ni `apk_builds/Gazgan Invest.apk` ga nusxalash kerak:
+```bash
+cp mobil/build/app/outputs/flutter-apk/app-release.apk "apk_builds/Gazgan Invest.apk"
+```
+
+**Mobil App Supabase Config:**
+- `lib/core/supabase_bootstrap.dart` — `String.fromEnvironment('SUPABASE_URL')` orqali compile-time konfiguratsiya
+- `lib/core/supabase_client.dart` — `Supabase.instance.client` wrapper
+- RLS policylar orqali anon/public o'qish uchun grant kerak (products, projects)
+
+**Mobil App Sahifalar + AI Chat:**
+- **Home:** `lib/features/home/home_screen.dart` — hero, stats, hot projects (gorizontal scroll), featured products, CTA. Pull-to-refresh mavjud.
+- **Products:** `lib/screens/products_screen.dart` — katalog, kategoriya bo'yicha. Pull-to-refresh.
+- **Product Detail:** `lib/screens/product_detail_screen.dart` — rasm, tavsif, narx, lead form.
+- **Projects:** `lib/screens/projects_screen.dart` — filtr (Hammasi/HOT/NEW/ACTIVE/FUNDED). Pull-to-refresh.
+- **Project Detail:** `lib/screens/project_detail_screen.dart` — ROI, payback, investitsiya progress.
+- **Calculator:** `lib/screens/calculator_screen.dart` — ROI kalkulyator.
+- **Profile:** `lib/screens/profile_screen.dart` — saqlangan loyihalar.
+- **AI Chat:** `lib/features/chat/ai_chat_sheet.dart` — bottom sheet, `https://gazgan-invest.vercel.app/api/chat` ga ulanadi. Quick questions (ActionChip), typing indicator animatsiya.
+
+### 3.5. Admin Panel (`admin/`)
+
+- **Next.js:** 16.x (App Router)
+- **Auth:** Next-Auth (`lib/auth.ts`)
+- **Database:** Supabase service role (RLS bypass)
+- **Deploy:** `gazgan-invest-admin.vercel.app`
+- **Muhim env vars:** `SUPABASE_SERVICE_ROLE_KEY`, `NEXTAUTH_SECRET`, `ADMIN_PASSWORD`
+
+**Admin Panel Sahifalar:**
+- **Dashboard (/):** Mahsulotlar ro'yxati + qo'shish/tahrirlash/o'chirish formasi
+- **Loyihalar (/projects):** Loyihalar CRUD, rasm yuklash, status boshqaruvi
+- **Statistika (/stats):** Jami mahsulotlar, loyihalar, foydalanuvchilar, investitsiya
+- **Hero rasmlar (/hero):** Hero slider rasmlarini boshqarish
+- **Bildirishnomalar (/notifications):** Foydalanuvchilarga push notification
+
+**Admin API Endpointlar (`admin/src/app/api/admin/`):**
+- `/api/admin/products` — Mahsulotlar CRUD (GET, POST, PATCH, DELETE)
+- `/api/admin/projects` — Loyihalar CRUD
+- `/api/admin/stats` — Statistik ma'lumotlar (jami, faol, foydalanuvchilar, investitsiya)
+- `/api/admin/upload` — Rasm yuklash (products bucket, product/project type)
+- `/api/admin/hero` — Hero rasmlar
+- `/api/admin/notifications` — Bildirishnomalar
+
+**Muhim: Stats API xatosi tuzatilgan:**
+- `users` jadvalida `id` EMAS, `telegram_id` ustuni bor
+- Har bir jadval so'rovi mustaqil try/catch da (bitta xatolik hammasini buzmaydi)
+
+### 3.6. Backend API (`backend/`)
+
 - **Python:** 3.11+
 - **Framework:** FastAPI
 - **ORM:** SQLAlchemy 2.0+
@@ -299,7 +387,62 @@ borderRadius: {
 - **Advanced Auth:** Backend'da JWT login/register + Frontend/MiniApp'da integratsiya.
 - **Real Map:** SVG o'rniga Leaflet yoki Google Maps integratsiyasi.
 
+## 13. AI Chat Konfiguratsiyasi
+
+**Joriy holat (2026-05-06): Groq API**
+
+| Parametr | Qiymat |
+|---|---|
+| API Provider | Groq (OpenAI-compatible) |
+| Model | `llama-3.3-70b-versatile` |
+| Base URL | `https://api.groq.com/openai/v1/chat/completions` |
+| Max tokens | 500 |
+| Temperature | 0.4 |
+| System prompt | O'zbek tilida, G'ozg'on konsultanti |
+| History limit | Oxirgi 6 ta xabar |
+| Message limit | 1200 belgi |
+| Endpoint | `frontend/src/app/api/chat/route.ts` |
+
+**Environment Variable:** `GROQ_API_KEY` (`frontend/.env.local` da saqlanadi, Vercel'da production env ga qo'shilishi kerak)
+
+**Fallback:** Agar `GROQ_API_KEY` bo'lmasa yoki API ishlamasa, keyword asosida tayyor javoblar (marmar, granit, investitsiya, narx, roi, eiz).
+
+**Mobil app ulanish:** Mobil app `https://gazgan-invest.vercel.app/api/chat` ga POST so'rov yuboradi: `{ message, history }`.
+
+**Provider almashtirish:** Yangi API uchun `.env.local` dagi kalitni o'zgartirish va `GROQ_MODEL`/`GROQ_BASE` constantalarini yangilash kifoya.
+
+## 14. Vercel Deployment Xaritasi
+
+| Loyiha | Vercel Domain | GitHub papka | Muhim env vars |
+|---|---|---|---|
+| **Frontend** | `gazgan-invest.vercel.app` | `frontend/` | `GROQ_API_KEY`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` |
+| **Admin** | `gazgan-invest-admin.vercel.app` | `admin/` | `SUPABASE_SERVICE_ROLE_KEY`, `NEXTAUTH_SECRET`, `ADMIN_PASSWORD` |
+| **MiniApp** | `gazgan-invest-miniapp-*.vercel.app` | `miniapp/` | `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_SUPABASE_*` |
+
+**Deploy trigger:** `main` branchga push avtomatik ravishda barcha 3 ta loyihani deploy qiladi.
+**MiniApp TypeScript:** Next.js 16.2.4 (Turbopack), strict mode. Xatolik bo'lsa `npm run build` log'ini tekshiring.
+
+## 15. Oxirgi O'zgarishlar (2026-05-06)
+
+| O'zgarish | Fayllar | Commit |
+|---|---|---|
+| AI Chat Gemini → Groq | `frontend/src/app/api/chat/route.ts`, `.env.example` | `5494fa9` |
+| Admin Stats API xatosi tuzatildi (`users.id` → `telegram_id`) | `admin/src/app/api/admin/stats/route.ts`, `admin/src/app/(dashboard)/stats/page.tsx` | `425aa21` |
+| MiniApp Leads TypeScript xatosi tuzatildi (nullable fields) | `miniapp/app/api/leads/route.ts` | `a9ecb52` |
+| Mobile: pull-to-refresh + AI Chat button | `mobil/lib/features/home/home_screen.dart`, `mobil/lib/features/chat/ai_chat_sheet.dart`, `mobil/lib/screens/products_screen.dart`, `mobil/lib/screens/projects_screen.dart` | `b965cfc` |
+| Smart quotes xatosi tuzatildi (ASCII) | `mobil/lib/screens/projects_screen.dart`, `mobil/lib/screens/product_detail_screen.dart` | `43dd172` |
+| APK build: `apk_builds/Gazgan Invest.apk` | Build artifact | — |
+
+**APK build qilish uchun to'liq komanda:**
+```bash
+cd mobil
+flutter build apk --release \
+  --dart-define "SUPABASE_URL=https://ynkzcezrohjwirapxkeq.supabase.co" \
+  --dart-define "SUPABASE_PUBLISHABLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlua3pjZXpyb2hqd2lyYXB4a2VxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MjczMDQsImV4cCI6MjA5MzQwMzMwNH0.f_YlJEFOnU0Td4FtQkTwcVVGSzTLwqxaKy9j9HsJqcc"
+cp mobil/build/app/outputs/flutter-apk/app-release.apk "apk_builds/Gazgan Invest.apk"
+```
+
 ---
 
-**Oxirgi yangilanish:** 2026-05-03  
+**Oxirgi yangilanish:** 2026-05-06  
 **Maintainer:** AI Agent / Developer

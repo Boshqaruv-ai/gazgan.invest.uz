@@ -28,6 +28,30 @@ Do not import code across `frontend/`, `miniapp`, and `admin`. If logic must be 
 - For Telegram Mini App client code, guard `window`/`document`, initialize Telegram only client-side, and respect Telegram viewport, BackButton, BottomNav, and haptic helper patterns.
 - For backend work, use FastAPI dependencies, typed Pydantic schemas, SQLAlchemy sessions from `get_db`, and settings from `app.config.settings`.
 
+## AI Chat (Groq API)
+
+- **Endpoint:** `frontend/src/app/api/chat/route.ts`
+- **Provider:** Groq (OpenAI-compatible), model: `llama-3.3-70b-versatile`
+- **Env:** `GROQ_API_KEY` (production Vercel'da qo'shilishi kerak)
+- **Fallback:** Kalit bo'lmasa, keyword-based javoblar (marmar, granit, investitsiya, narx, roi, eiz)
+- **Mobile ulanish:** Mobil app `https://gazgan-invest.vercel.app/api/chat` ga POST qiladi
+
+## Admin Panel Fixes
+
+- **Stats API:** `users` jadvalida `id` EMAS, `telegram_id` ustuni bor. Admin stats API da tuzatilgan (`admin/src/app/api/admin/stats/route.ts`).
+- **Har bir jadval so'rovi mustaqil try/catch da** — bitta jadval ishlamasa qolganlari ishlaydi.
+- **Admin stats sahifasi:** Xatolik ko'rsatish va "Qayta urinish" tugmasi qo'shilgan.
+
+## Vercel Deployment
+
+| Loyiha | Domain | Papka |
+|---|---|---|
+| Frontend | `gazgan-invest.vercel.app` | `frontend/` |
+| Admin | `gazgan-invest-admin.vercel.app` | `admin/` |
+| MiniApp | `gazgan-invest-miniapp-*.vercel.app` | `miniapp/` |
+
+**MiniApp TypeScript:** Strict mode. Deploy xatoligi bo'lsa `npm run build` log'ini tekshiring. Eng oxirgi xato `leads/route.ts` da nullable telegram_id/project_id tiplari edi — tuzatilgan.
+
 ## References
 
 Load only the reference needed for the current task:
