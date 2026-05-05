@@ -16,17 +16,21 @@ interface Stats {
 export default function StatsPage() {
   const [stats, setStats] = React.useState<Stats | null>(null);
   const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     async function fetchStats() {
       try {
         const res = await fetch('/api/admin/stats');
+        const data = await res.json();
         if (res.ok) {
-          const data = await res.json();
           setStats(data);
+        } else {
+          setError(data?.error || 'Statistikani yuklashda xatolik');
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error(err);
+        setError(err?.message || 'Tarmoq xatoligi');
       } finally {
         setLoading(false);
       }
@@ -36,6 +40,34 @@ export default function StatsPage() {
 
   if (loading) {
     return <div className="p-4 text-white">Yuklanmoqda...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="p-4">
+        <h2 className="text-xl font-bold text-white mb-6">Statistika</h2>
+        <div className="rounded-xl bg-red-500/10 border border-red-500/20 p-6 text-center">
+          <p className="text-red-400 mb-3">{error}</p>
+          <button
+            onClick={() => {
+              setError(null);
+              setLoading(true);
+              fetch('/api/admin/stats')
+                .then((r) => r.json())
+                .then((d) => {
+                  if (d.error) setError(d.error);
+                  else setStats(d);
+                })
+                .catch((e) => setError(e?.message || 'Xatolik'))
+                .finally(() => setLoading(false));
+            }}
+            className="rounded-lg bg-accent px-4 py-2 font-semibold text-dark"
+          >
+            Qayta urinish
+          </button>
+        </div>
+      </div>
+    );
   }
 
   const statCards = [

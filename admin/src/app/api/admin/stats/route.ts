@@ -13,31 +13,66 @@ export async function GET() {
 
   const supabase = getSupabaseAdmin();
 
-  const [
-    { data: products, error: productsError },
-    { data: projects, error: projectsError },
-    { data: users, error: usersError },
-  ] = await Promise.all([
-    supabase.from('featured_products').select('id, is_active'),
-    supabase.from('projects').select('id, status'),
-    supabase.from('users').select('id, created_at'),
-  ]);
+  const today = new Date().toISOString().split('T')[0];
 
-  if (productsError || projectsError || usersError) {
-    return NextResponse.json({ error: 'Failed to fetch stats' }, { status: 500 });
+  let totalProducts = 0;
+  let activeProducts = 0;
+  let totalProjects = 0;
+  let activeProjects = 0;
+  let totalUsers = 0;
+  let newUsersToday = 0;
+  let totalInvestment = 0;
+
+  // Query each table independently so one failure doesn't break everything
+
+  try {
+    const { data: products, error: productsError } = await supabase
+      .from('featured_products')
+      .select('id, is_active');
+    if (!productsError && products) {
+      totalProducts = products.length;
+      activeProducts = products.filter((p: any) => p.is_active).length;
+    }
+  } catch {
+    // Ignore individual table errors
   }
 
-  const today = new Date().toISOString().split('T')[0];
-  const newUsersToday = users?.filter((u: any) => u.created_at?.startsWith(today)).length || 0;
+  try {
+    const { data: projects, error: projectsError } = await supabase
+      .from('projects')
+      .select('id, status, investment_raised');
+    if (!projectsError && projects) {
+      totalProjects = projects.length;
+      activeProjects = projects.filter(
+        (p: any) => p.status === 'ACTIVE' || p.status === 'HOT' || p.status === 'NEW',
+      ).length;
+      totalInvestment = projects.reduce(
+        (sum: number, p: any) => sum + (Number(p.investment_raised) || 0),
+        0,
+      );
+    }
+  } catch {
+    // Ignore individual table errors
+  }
 
-  const totalInvestment = projects?.reduce((sum: number, p: any) => sum + (p.investment_raised || 0), 0) || 0;
+  try {
+    const { data: users, error: usersError } = await supabase
+      .from('users')
+      .select('telegram_id, created_at');
+    if (!usersError && users) {
+      totalUsers = users.length;
+      newUsersToday = users.filter((u: any) => u.created_at?.startsWith(today)).length;
+    }
+  } catch {
+    // Ignore individual table errors
+  }
 
   const stats = {
-    totalProducts: products?.length || 0,
-    activeProducts: products?.filter((p: any) => p.is_active).length || 0,
-    totalProjects: projects?.length || 0,
-    activeProjects: projects?.filter((p: any) => p.status === 'ACTIVE' || p.status === 'HOT' || p.status === 'NEW').length || 0,
-    totalUsers: users?.length || 0,
+    totalProducts,
+    activeProducts,
+    totalProjects,
+    activeProjects,
+    totalUsers,
     newUsersToday,
     totalInvestment,
   };
