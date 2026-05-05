@@ -43,22 +43,34 @@ export interface Database {
       leads: {
         Row: {
           id: string;
-          telegram_id: string;
-          project_id: string;
+          telegram_id: string | null;
+          project_id: string | null;
+          name: string | null;
+          phone: string | null;
+          product_id: string | null;
+          source: string;
           message: string | null;
           created_at: string;
         };
         Insert: {
           id?: string;
-          telegram_id: string;
-          project_id: string;
+          telegram_id?: string | null;
+          project_id?: string | null;
+          name?: string | null;
+          phone?: string | null;
+          product_id?: string | null;
+          source?: string;
           message?: string | null;
           created_at?: string;
         };
         Update: {
           id?: string;
-          telegram_id?: string;
-          project_id?: string;
+          telegram_id?: string | null;
+          project_id?: string | null;
+          name?: string | null;
+          phone?: string | null;
+          product_id?: string | null;
+          source?: string;
           message?: string | null;
           created_at?: string;
         };

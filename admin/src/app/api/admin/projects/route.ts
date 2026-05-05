@@ -31,22 +31,23 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { title, category, status, roi, payback_years, amount, investment_required, investment_raised, location, description } = body;
+  const { title, category, status, roi, payback_years, amount, investment_required, investment_raised, location, description, image_url } = body;
 
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from('projects')
-    .insert([{ 
-      title, 
-      category, 
-      status, 
-      roi, 
-      payback_years, 
-      amount, 
-      investment_required, 
+    .insert([{
+      title,
+      category,
+      status,
+      roi,
+      payback_years,
+      amount,
+      investment_required,
       investment_raised: investment_raised || 0,
-      location, 
-      description 
+      location,
+      description,
+      main_image: image_url || null,
     }])
     .select()
     .single();
@@ -65,16 +66,21 @@ export async function PATCH(request: Request) {
   }
 
   const body = await request.json();
-  const { id, ...updates } = body;
+  const { id, image_url, ...updates } = body;
 
   if (!id) {
     return NextResponse.json({ error: 'Missing id' }, { status: 400 });
   }
 
+  const updatedFields: Record<string, any> = { ...updates };
+  if (image_url !== undefined) {
+    updatedFields.main_image = image_url;
+  }
+
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from('projects')
-    .update(updates)
+    .update(updatedFields)
     .eq('id', id)
     .select()
     .single();

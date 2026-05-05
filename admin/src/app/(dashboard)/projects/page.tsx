@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { useSession } from 'next-auth/react';
-import { Folder, Plus, Trash2, Edit } from 'lucide-react';
+import { Folder, Plus, Trash2, Edit, Upload } from 'lucide-react';
 
 export default function ProjectsPage() {
   const { data: session } = useSession();
@@ -10,6 +10,7 @@ export default function ProjectsPage() {
   const [loading, setLoading] = React.useState(true);
   const [showForm, setShowForm] = React.useState(false);
   const [editing, setEditing] = React.useState<any>(null);
+  const [uploading, setUploading] = React.useState(false);
   const [formData, setFormData] = React.useState<any>({
     title: '',
     category: '',
@@ -21,7 +22,36 @@ export default function ProjectsPage() {
     investment_raised: 0,
     location: '',
     description: '',
+    image_url: '',
   });
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const formDataUpload = new FormData();
+      formDataUpload.append('file', file);
+      formDataUpload.append('type', 'project');
+
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formDataUpload,
+      });
+      const data = await res.json();
+
+      if (data.url) {
+        setFormData((current: any) => ({ ...current, image_url: data.url }));
+      } else if (data.error) {
+        alert(data.error);
+      }
+    } catch {
+      alert('Rasm yuklashda xatolik');
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const fetchProjects = React.useCallback(async () => {
     setLoading(true);
@@ -42,12 +72,34 @@ export default function ProjectsPage() {
     fetchProjects();
   }, [fetchProjects]);
 
+  const resetForm = () => {
+    setEditing(null);
+    setFormData({
+      title: '',
+      category: '',
+      status: 'ACTIVE',
+      roi: '',
+      payback_years: '',
+      amount: '',
+      investment_required: '',
+      investment_raised: 0,
+      location: '',
+      description: '',
+      image_url: '',
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const method = editing ? 'PATCH' : 'POST';
-    const body = editing 
-      ? { ...formData, id: editing.id, roi: Number(formData.roi) || 0, payback_years: Number(formData.payback_years) || 0, amount: Number(formData.amount) || 0, investment_required: Number(formData.investment_required) || 0 }
-      : { ...formData, roi: Number(formData.roi) || 0, payback_years: Number(formData.payback_years) || 0, amount: Number(formData.amount) || 0, investment_required: Number(formData.investment_required) || 0 };
+    const body = {
+      ...formData,
+      id: editing?.id,
+      roi: Number(formData.roi) || 0,
+      payback_years: Number(formData.payback_years) || 0,
+      amount: Number(formData.amount) || 0,
+      investment_required: Number(formData.investment_required) || 0,
+    };
 
     try {
       const res = await fetch('/api/admin/projects', {
@@ -57,19 +109,7 @@ export default function ProjectsPage() {
       });
       if (res.ok) {
         setShowForm(false);
-        setEditing(null);
-        setFormData({
-          title: '',
-          category: '',
-          status: 'ACTIVE',
-          roi: '',
-          payback_years: '',
-          amount: '',
-          investment_required: '',
-          investment_raised: 0,
-          location: '',
-          description: '',
-        });
+        resetForm();
         fetchProjects();
       }
     } catch (err) {
@@ -89,7 +129,19 @@ export default function ProjectsPage() {
 
   const handleEdit = (project: any) => {
     setEditing(project);
-    setFormData(project);
+    setFormData({
+      title: project.title || '',
+      category: project.category || '',
+      status: project.status || 'ACTIVE',
+      roi: project.roi ?? '',
+      payback_years: project.payback_years ?? '',
+      amount: project.amount ?? '',
+      investment_required: project.investment_required ?? '',
+      investment_raised: project.investment_raised ?? 0,
+      location: project.location || '',
+      description: project.description || '',
+      image_url: project.image_url || '',
+    });
     setShowForm(true);
   };
 
@@ -104,19 +156,7 @@ export default function ProjectsPage() {
         <button
           onClick={() => {
             setShowForm(true);
-            setEditing(null);
-            setFormData({
-              title: '',
-              category: '',
-              status: 'ACTIVE',
-              roi: '',
-              payback_years: '',
-              amount: '',
-              investment_required: '',
-              investment_raised: 0,
-              location: '',
-              description: '',
-            });
+            resetForm();
           }}
           className="flex items-center gap-2 px-4 py-2 bg-accent text-dark rounded-lg font-semibold"
         >
@@ -224,6 +264,35 @@ export default function ProjectsPage() {
               rows={3}
             />
           </div>
+          <div>
+            <label className="block text-sm text-gray-400 mb-1">Loyiha rasmi</label>
+            <div className="flex gap-2 mb-2">
+              <input
+                id="project-image-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
+              />
+              <label
+                htmlFor="project-image-upload"
+                className="flex cursor-pointer items-center gap-2 rounded-lg bg-secondary/50 px-4 py-2 text-white hover:bg-secondary/70"
+              >
+                <Upload size={16} />
+                {uploading ? 'Yuklanmoqda...' : 'Rasm tanlash'}
+              </label>
+              {formData.image_url && (
+                <span className="self-center text-sm text-green-400">Yuklangan ✓</span>
+              )}
+            </div>
+            <input
+              type="url"
+              value={formData.image_url}
+              onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+              placeholder="Yoki rasm URL ni qo'lda kiriting"
+              className="w-full px-3 py-2 bg-secondary/50 border border-accent/20 rounded-lg text-white text-sm"
+            />
+          </div>
           <div className="flex gap-2">
             <button type="submit" className="px-4 py-2 bg-accent text-dark rounded-lg font-semibold">
               {editing ? 'Saqlash' : 'Qo\'shish'}
@@ -232,7 +301,7 @@ export default function ProjectsPage() {
               type="button"
               onClick={() => {
                 setShowForm(false);
-                setEditing(null);
+                resetForm();
               }}
               className="px-4 py-2 bg-secondary/50 text-white rounded-lg"
             >
