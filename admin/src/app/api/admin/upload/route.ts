@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     const path = `${folder}/${id || 'new'}/${fileName}`;
 
     const { data, error } = await supabase.storage
-      .from('gazgan-media')
+      .from('products')
       .upload(path, buffer, {
         contentType: file.type,
         upsert: true,
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     }
 
     const { data: urlData } = supabase.storage
-      .from('gazgan-media')
+      .from('products')
       .getPublicUrl(data.path);
 
     return NextResponse.json({ url: urlData.publicUrl });
