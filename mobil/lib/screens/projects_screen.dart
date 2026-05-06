@@ -30,19 +30,20 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
     futureProjects = widget.repository.listProjects();
   }
 
+  Future<void> _refresh() async {
+    setState(() {
+      futureProjects = widget.repository.listProjects();
+    });
+    await futureProjects;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScreenFrame(
       title: 'Loyihalar',
-      subtitle:
-          "ROI, qoplanish muddati va yig'ilgan investitsiya bo'yicha solishtiring.",
-      child: RefreshIndicator(
-        onRefresh: () async {
-          await _reloadAsync();
-        },
-        color: GazganColors.gold,
-        backgroundColor: GazganColors.surface,
-        child: FutureBuilder<List<Project>>(
+      subtitle: 'ROI, qoplanish muddati va investitsiya miqdori boyicha solishtiring.',
+      onRefresh: _refresh,
+      child: FutureBuilder<List<Project>>(
         future: futureProjects,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -51,7 +52,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
           if (snapshot.hasError) {
             return ErrorStateView(
               message: snapshot.error.toString(),
-              onRetry: _reload,
+              onRetry: () => _refresh(),
             );
           }
 
@@ -59,13 +60,10 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
           final projects = selectedStatus == null
               ? allProjects
               : allProjects
-                    .where((project) => project.status == selectedStatus)
-                    .toList();
+                  .where((project) => project.status == selectedStatus)
+                  .toList();
 
-          return ListView(
-            physics: const AlwaysScrollableScrollPhysics(
-              parent: BouncingScrollPhysics(),
-            ),
+          return Column(
             children: [
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -89,8 +87,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
               if (projects.isEmpty)
                 const EmptyStateView(
                   title: 'Loyiha topilmadi',
-                  message:
-                      'Tanlangan filter bo\'yicha faol investitsiya loyihasi yo\'q.',
+                  message: 'Tanlangan filter boyicha faol investitsiya loyihasi yoq.',
                 )
               else
                 for (final project in projects)
@@ -102,22 +99,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
           );
         },
       ),
-      ),
     );
-  }
-
-  void _reload() {
-    setState(() {
-      futureProjects = widget.repository.listProjects();
-    });
-  }
-
-  Future<void> _reloadAsync() async {
-    final data = widget.repository.listProjects();
-    setState(() {
-      futureProjects = data;
-    });
-    await data;
   }
 }
 

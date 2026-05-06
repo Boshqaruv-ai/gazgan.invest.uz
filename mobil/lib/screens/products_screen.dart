@@ -29,23 +29,21 @@ class _ProductsScreenState extends State<ProductsScreen> {
     futureProducts = widget.repository.listFeaturedProducts();
   }
 
+  Future<void> _refresh() async {
+    setState(() {
+      futureProducts = widget.repository.listFeaturedProducts();
+    });
+    await futureProducts;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScreenFrame(
       title: 'Mahsulotlar',
-      subtitle:
-          'Admin panel orqali yangilanadigan marmar va granit katalogi uchun UI maket.',
-      child: RefreshIndicator(
-        onRefresh: () async {
-          await _reloadAsync();
-        },
-        color: GazganColors.gold,
-        backgroundColor: GazganColors.surface,
-        child: ListView(
-          physics: const AlwaysScrollableScrollPhysics(
-            parent: BouncingScrollPhysics(),
-          ),
-          children: [
+      subtitle: 'Admin panel orqali yangilanadigan marmar va granit katalogi.',
+      onRefresh: _refresh,
+      child: Column(
+        children: [
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(18),
@@ -68,14 +66,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 ),
                 SizedBox(height: 6),
                 Text(
-                  "Narx, birlik va kategoriya Supabase contractiga mos ko'rsatiladi.",
+                  'Narx, birlik va kategoriya asosida korishingiz mumkin.',
                   style: TextStyle(color: Color(0xFF4C5563), height: 1.4),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 18),
-          FutureBuilder(
+          FutureBuilder<List<FeaturedProduct>>(
             future: futureProducts,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -84,7 +82,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
               if (snapshot.hasError) {
                 return ErrorStateView(
                   message: snapshot.error.toString(),
-                  onRetry: _reload,
+                  onRetry: () => _refresh(),
                 );
               }
 
@@ -92,7 +90,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
               if (products.isEmpty) {
                 return const EmptyStateView(
                   title: 'Mahsulot topilmadi',
-                  message: 'Hozircha faol katalog mahsulotlari yo\u02bbq.',
+                  message: 'Hozircha faol katalog mahsulotlari yoʻq.',
                 );
               }
 
@@ -109,21 +107,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
           ),
         ],
       ),
-      ),
     );
-  }
-
-  void _reload() {
-    setState(() {
-      futureProducts = widget.repository.listFeaturedProducts();
-    });
-  }
-
-  Future<void> _reloadAsync() async {
-    final data = widget.repository.listFeaturedProducts();
-    setState(() {
-      futureProducts = data;
-    });
-    await data;
   }
 }
