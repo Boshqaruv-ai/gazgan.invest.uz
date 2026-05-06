@@ -202,60 +202,153 @@ class _HomeData {
   final List<FeaturedProduct> products;
 }
 
-class _FloatingAiButton extends StatelessWidget {
+class _FloatingAiButton extends StatefulWidget {
   const _FloatingAiButton();
+
+  @override
+  State<_FloatingAiButton> createState() => _FloatingAiButtonState();
+}
+
+class _FloatingAiButtonState extends State<_FloatingAiButton>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _pulse;
+  late final Animation<double> _scale;
+
+  @override
+  void initState() {
+    super.initState();
+    _pulse = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1800),
+    )..repeat(reverse: true);
+    _scale = Tween<double>(begin: 0.92, end: 1.0).animate(
+      CurvedAnimation(parent: _pulse, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _pulse.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => showAiChatSheet(context: context),
-      child: Container(
-        width: 72,
-        height: 72,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [GazganColors.gold, GazganColors.goldDeep],
+      child: AnimatedBuilder(
+        animation: _scale,
+        builder: (context, child) {
+          return Transform.scale(
+            scale: _scale.value,
+            child: child,
+          );
+        },
+        child: Container(
+          width: 64,
+          height: 64,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Color(0xFF1E2A3A), Color(0xFF0F1923)],
+            ),
+            border: Border.all(
+              color: GazganColors.gold.withValues(alpha: 0.45),
+              width: 1.8,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: GazganColors.gold.withValues(alpha: 0.28),
+                blurRadius: 28,
+                offset: const Offset(0, 8),
+              ),
+              BoxShadow(
+                color: GazganColors.gold.withValues(alpha: 0.12),
+                blurRadius: 48,
+                offset: const Offset(0, 0),
+              ),
+            ],
           ),
-          boxShadow: [
-            BoxShadow(
-              color: GazganColors.gold.withValues(alpha: 0.32),
-              blurRadius: 26,
-              offset: const Offset(0, 12),
-            ),
-          ],
-          border: Border.all(color: Colors.white.withValues(alpha: 0.16)),
-        ),
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            const Center(
-              child: Icon(
-                Icons.smart_toy_rounded,
-                color: GazganColors.graphite,
-                size: 30,
-              ),
-            ),
-            Positioned(
-              right: 6,
-              top: 8,
-              child: Container(
-                width: 14,
-                height: 14,
-                decoration: const BoxDecoration(
-                  color: GazganColors.success,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.bolt_rounded,
-                  color: GazganColors.graphite,
-                  size: 8,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              // Robot face icon
+              const Center(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 1),
+                  child: Icon(
+                    Icons.smart_toy_rounded,
+                    color: GazganColors.gold,
+                    size: 28,
+                    shadows: [
+                      Shadow(
+                        color: Color(0x40E2B95E),
+                        blurRadius: 14,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+              // Glowing online dot
+              Positioned(
+                right: -1,
+                top: -1,
+                child: Container(
+                  width: 16,
+                  height: 16,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: const Color(0xFF0F1923),
+                    border: Border.all(
+                      color: const Color(0xFF0F1923),
+                      width: 2.5,
+                    ),
+                  ),
+                  child: Center(
+                    child: Container(
+                      width: 9,
+                      height: 9,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: const RadialGradient(
+                          colors: [Color(0xFF5EFF8A), Color(0xFF2ECC71)],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF2ECC71).withValues(alpha: 0.7),
+                            blurRadius: 8,
+                            spreadRadius: 1,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              // Inner subtle highlight
+              Positioned(
+                left: 12,
+                top: 10,
+                child: Container(
+                  width: 10,
+                  height: 6,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.white.withValues(alpha: 0.10),
+                        Colors.white.withValues(alpha: 0.0),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
