@@ -212,16 +212,16 @@ class _FloatingAiButton extends StatefulWidget {
 class _FloatingAiButtonState extends State<_FloatingAiButton>
     with SingleTickerProviderStateMixin {
   late final AnimationController _pulse;
-  late final Animation<double> _scale;
+  late final Animation<double> _glowOpacity;
 
   @override
   void initState() {
     super.initState();
     _pulse = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1800),
+      duration: const Duration(milliseconds: 2200),
     )..repeat(reverse: true);
-    _scale = Tween<double>(begin: 0.92, end: 1.0).animate(
+    _glowOpacity = Tween<double>(begin: 0.18, end: 0.42).animate(
       CurvedAnimation(parent: _pulse, curve: Curves.easeInOut),
     );
   }
@@ -237,10 +237,25 @@ class _FloatingAiButtonState extends State<_FloatingAiButton>
     return GestureDetector(
       onTap: () => showAiChatSheet(context: context),
       child: AnimatedBuilder(
-        animation: _scale,
+        animation: _glowOpacity,
         builder: (context, child) {
-          return Transform.scale(
-            scale: _scale.value,
+          return Container(
+            width: 66,
+            height: 66,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: GazganColors.gold.withValues(alpha: _glowOpacity.value),
+                  blurRadius: 36,
+                  spreadRadius: 4,
+                ),
+                BoxShadow(
+                  color: GazganColors.gold.withValues(alpha: _glowOpacity.value * 0.5),
+                  blurRadius: 64,
+                ),
+              ],
+            ),
             child: child,
           );
         },
@@ -252,74 +267,53 @@ class _FloatingAiButtonState extends State<_FloatingAiButton>
             gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Color(0xFF1E2A3A), Color(0xFF0F1923)],
+              colors: [Color(0xFF1A2535), Color(0xFF0D1520)],
             ),
             border: Border.all(
-              color: GazganColors.gold.withValues(alpha: 0.45),
-              width: 1.8,
+              color: GazganColors.gold.withValues(alpha: 0.5),
+              width: 2,
             ),
-            boxShadow: [
-              BoxShadow(
-                color: GazganColors.gold.withValues(alpha: 0.28),
-                blurRadius: 28,
-                offset: const Offset(0, 8),
-              ),
-              BoxShadow(
-                color: GazganColors.gold.withValues(alpha: 0.12),
-                blurRadius: 48,
-                offset: const Offset(0, 0),
-              ),
-            ],
           ),
           child: Stack(
             clipBehavior: Clip.none,
+            alignment: Alignment.center,
             children: [
-              // Robot face icon
-              const Center(
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 1),
-                  child: Icon(
-                    Icons.smart_toy_rounded,
-                    color: GazganColors.gold,
-                    size: 28,
-                    shadows: [
-                      Shadow(
-                        color: Color(0x40E2B95E),
-                        blurRadius: 14,
-                      ),
-                    ],
-                  ),
-                ),
+              // Robot icon with gold glow
+              const Icon(
+                Icons.smart_toy_rounded,
+                color: GazganColors.gold,
+                size: 26,
+                shadows: [
+                  Shadow(color: Color(0x60E2B95E), blurRadius: 16),
+                  Shadow(color: Color(0x30E2B95E), blurRadius: 30),
+                ],
               ),
-              // Glowing online dot
+              // Online indicator - perfect circle with glow
               Positioned(
-                right: -1,
-                top: -1,
+                right: -2,
+                top: -2,
                 child: Container(
-                  width: 16,
-                  height: 16,
+                  width: 20,
+                  height: 20,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: const Color(0xFF0F1923),
-                    border: Border.all(
-                      color: const Color(0xFF0F1923),
-                      width: 2.5,
-                    ),
+                    color: const Color(0xFF0D1520),
+                    border: Border.all(color: const Color(0xFF0D1520), width: 3),
                   ),
                   child: Center(
                     child: Container(
-                      width: 9,
-                      height: 9,
+                      width: 10,
+                      height: 10,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         gradient: const RadialGradient(
-                          colors: [Color(0xFF5EFF8A), Color(0xFF2ECC71)],
+                          colors: [Color(0xFF7DFFA4), Color(0xFF2ECC71)],
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF2ECC71).withValues(alpha: 0.7),
-                            blurRadius: 8,
-                            spreadRadius: 1,
+                            color: const Color(0xFF2ECC71).withValues(alpha: 0.8),
+                            blurRadius: 10,
+                            spreadRadius: 2,
                           ),
                         ],
                       ),
@@ -327,20 +321,17 @@ class _FloatingAiButtonState extends State<_FloatingAiButton>
                   ),
                 ),
               ),
-              // Inner subtle highlight
+              // Glass reflection strip
               Positioned(
-                left: 12,
-                top: 10,
+                top: 12,
                 child: Container(
-                  width: 10,
-                  height: 6,
+                  width: 22,
+                  height: 3,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(3),
+                    borderRadius: BorderRadius.circular(99),
                     gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
                       colors: [
-                        Colors.white.withValues(alpha: 0.10),
+                        Colors.white.withValues(alpha: 0.15),
                         Colors.white.withValues(alpha: 0.0),
                       ],
                     ),

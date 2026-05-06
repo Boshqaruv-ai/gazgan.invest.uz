@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../app/app_theme.dart';
 
-const _chatApiUrl = 'https://gazgan-invest.vercel.app/api/chat';
+const _chatApiUrl = 'https://gazganinvest-frontend.vercel.app/api/chat';
 
 final _quickQuestions = [
   'Marmar nima?',
